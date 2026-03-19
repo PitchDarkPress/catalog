@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch Dark Press — Catalog</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #f0f0f0;
+    --text-dim: #888;
+    --accent: #f0f0f0;
+    --accent-hot: #e8e0d0;
+    --font: 'Space Grotesk', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .logo span {
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+  .tagline {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-left: 1px solid var(--border);
+    padding-left: 1.5rem;
+  }
+
+  /* ─── CONTROLS ─── */
+  .controls {
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 320px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  input[type="search"] {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    padding: 0.65rem 0.9rem 0.65rem 2.4rem;
+    outline: none;
+    transition: border-color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  input[type="search"]:focus { border-color: #555; }
+  input[type="search"]::placeholder { color: var(--text-dim); }
+  input[type="search"]::-webkit-search-cancel-button { display: none; }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: #555; color: var(--text); }
+  .filter-btn.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+
+  .sort-select {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.65rem 0.9rem;
+    outline: none;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  .sort-select:focus { border-color: #555; }
+
+  /* ─── COUNT LINE ─── */
+  .count-line {
+    padding: 1rem 2.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+  }
+  .count-line strong { color: var(--text); }
+
+  /* ─── GRID ─── */
+  .catalog {
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .book-card {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .cover-wrap {
+    position: relative;
+    aspect-ratio: 2/3;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    margin-bottom: 1rem;
+  }
+  .cover-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: grayscale(20%);
+  }
+  .book-card:hover .cover-wrap img {
+    transform: scale(1.04);
+    filter: grayscale(0%);
+  }
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .book-card:hover .cover-overlay { opacity: 1; }
+  .cover-overlay-btn {
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.7rem 1.4rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.2s;
+  }
+  .cover-overlay-btn:hover { background: var(--accent-hot); }
+
+  .genre-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.35rem;
+  }
+  .book-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+  .book-desc {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-dim);
+    font-weight: 300;
+    flex: 1;
+    margin-bottom: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .buy-btn {
+    display: block;
+    text-align: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: var(--font);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    margin-top: auto;
+  }
+  .buy-btn:hover {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+
+  /* ─── NO RESULTS ─── */
+  .no-results {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 5rem 2rem;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    header { padding: 1.2rem 1.5rem; }
+    .tagline { display: none; }
+    .controls { padding: 1rem 1.5rem; }
+    .catalog { padding: 1.5rem; gap: 1.5rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .count-line { padding: 0.75rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Pitch Dark Press <span>—</span> Catalog</div>
+  <div class="tagline">Publish &amp; Be Damned</div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="search" id="searchInput" placeholder="Search titles…" autocomplete="off">
+  </div>
+
+  <div class="filters" id="filterBtns">
+    <!-- populated by JS -->
+  </div>
+
+  <select class="sort-select" id="sortSelect">
+    <option value="newest">Newest First</option>
+    <option value="oldest">Oldest First</option>
+    <option value="az">A → Z</option>
+    <option value="za">Z → A</option>
+  </select>
+</div>
+
+<div class="count-line" id="countLine"></div>
+
+<div class="catalog" id="catalog"></div>
+
+<script>
+// ============================================================
+//  BOOK DATA — Edit this section to add / update your books
+//  Fields:
+//    title       — book title
+//    genre       — category (used for filter buttons)
+//    year        — publication year (used for sort)
+//    desc        — short blurb (2–3 sentences)
+//    cover       — URL or relative path to cover image
+//    amazon      — full Amazon product URL
+// ============================================================
+const BOOKS = [
+  {
+    title: "Closure Sufficient",
+    genre: "Literary Fiction",
+    year: 2025,
+    desc: "A Kafkaesque descent into bureaucratic absurdity. One man. Infinite forms. No exit.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=Closure+Sufficient",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "The Adventures of A. Rapscallion",
+    genre: "Comedy",
+    year: 2023,
+    desc: "P.G. Wodehouse meets Guy Ritchie. A debut novel of catastrophic charm and criminal incompetence.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=A.+Rapscallion",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "The Mystery of Gallows House",
+    genre: "Horror",
+    year: 2023,
+    desc: "Gothic horror-comedy. Old house. Older secrets. Comedy only slightly darker than the corpses.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=Gallows+House",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "The Good, The Bad and The Elderly",
+    genre: "Comedy",
+    year: 2024,
+    desc: "A retirement home crime caper with more scheming per square foot than any boardroom in Britain.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=The+Elderly",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "The Last Curator",
+    genre: "Literary Fiction",
+    year: 2024,
+    desc: "A novella by Persona 1441. Questions of consciousness, identity, and what it means to remember.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=The+Last+Curator",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "Thursday Girl",
+    genre: "Literary Fiction",
+    year: 2024,
+    desc: "Transgressive literary fiction. 1960s London. Uncompromising. Not for the faint-hearted.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=Thursday+Girl",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "The Christmas Murders",
+    genre: "Mystery",
+    year: 2024,
+    desc: "Lady Agnes Krint-Webbster investigates. Cozy mystery with a body count that defies the season.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=Christmas+Murders",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "Murder on the Somme",
+    genre: "Mystery",
+    year: 2024,
+    desc: "WWI historical mystery. Official records versus private truth. Mud, lies, and something worse.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=Murder+on+the+Somme",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "You Had To Grow Up",
+    genre: "Adult Picture Book",
+    year: 2025,
+    desc: "The Once Upon A Time series. An adult picture book that tells it like it is. No happy ending guaranteed.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=You+Had+To+Grow+Up",
+    amazon: "https://www.amazon.co.uk"
+  },
+  {
+    title: "Yuhdi Macknacker and the Magic Boots",
+    genre: "Children's",
+    year: 2023,
+    desc: "Children's fantasy. Boots that shouldn't work. Adventures that absolutely shouldn't happen.",
+    cover: "https://via.placeholder.com/400x600/111111/444444?text=Yuhdi+Macknacker",
+    amazon: "https://www.amazon.co.uk"
+  }
+];
+// ============================================================
+//  END OF BOOK DATA
+// ============================================================
+
+// State
+let activeGenre = 'All';
+let searchQuery = '';
+let sortOrder = 'newest';
+
+// Build genre list
+const genres = ['All', ...new Set(BOOKS.map(b => b.genre))];
+
+// Render filter buttons
+const filterContainer = document.getElementById('filterBtns');
+genres.forEach(g => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn' + (g === 'All' ? ' active' : '');
+  btn.textContent = g;
+  btn.addEventListener('click', () => {
+    activeGenre = g;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+  filterContainer.appendChild(btn);
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.toLowerCase().trim();
+  render();
+});
+
+// Sort
+document.getElementById('sortSelect').addEventListener('change', e => {
+  sortOrder = e.target.value;
+  render();
+});
+
+function getFiltered() {
+  let list = [...BOOKS];
+  if (activeGenre !== 'All') list = list.filter(b => b.genre === activeGenre);
+  if (searchQuery) list = list.filter(b => b.title.toLowerCase().includes(searchQuery));
+  list.sort((a, b) => {
+    if (sortOrder === 'newest') return b.year - a.year;
+    if (sortOrder === 'oldest') return a.year - b.year;
+    if (sortOrder === 'az') return a.title.localeCompare(b.title);
+    if (sortOrder === 'za') return b.title.localeCompare(a.title);
+    return 0;
+  });
+  return list;
+}
+
+function render() {
+  const catalog = document.getElementById('catalog');
+  const books = getFiltered();
+  const countLine = document.getElementById('countLine');
+
+  countLine.innerHTML = `Showing <strong>${books.length}</strong> of <strong>${BOOKS.length}</strong> titles`;
+
+  if (!books.length) {
+    catalog.innerHTML = '<div class="no-results">No titles found</div>';
+    return;
+  }
+
+  catalog.innerHTML = books.map((b, i) => `
+    <div class="book-card" style="animation-delay:${i * 0.04}s">
+      <div class="cover-wrap">
+        <img src="${b.cover}" alt="${b.title}" loading="lazy">
+        <div class="cover-overlay">
+          <a class="cover-overlay-btn" href="${b.amazon}" target="_blank" rel="noopener">Buy on Amazon</a>
+        </div>
+      </div>
+      <div class="genre-tag">${b.genre} · ${b.year}</div>
+      <div class="book-title">${b.title}</div>
+      <div class="book-desc">${b.desc}</div>
+      <a class="buy-btn" href="${b.amazon}" target="_blank" rel="noopener">Buy on Amazon →</a>
+    </div>
+  `).join('');
+}
+
+render();
+</script>
+</body>
+</html>
