@@ -134,14 +134,14 @@
     <div class="upload-drop-text">Click to select cover images</div>
     <div class="upload-drop-sub">Portrait PNG or JPG · Front cover only · Multiple OK</div>
   </div>
-  <div class="upload-queue" id="uploadQueue"><div class="upload-item"><div class="upload-item-name">covers/fly-cover.png</div><div class="upload-item-status s-pending">Ready</div></div></div>
+  <div class="upload-queue" id="uploadQueue"><div class="upload-item"><div class="upload-item-name">covers/fly-cover.png</div><div class="upload-item-status s-done">✓ Uploaded</div></div></div>
   <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
     <button class="btn-upload" id="uploadBtn" onclick="uploadAll()">Upload to GitHub</button>
     <button class="btn-secondary" type="button" onclick="clearQueue()">Clear Queue</button>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast">All uploaded ✓</div>
 
 <script>
 const STATUS_OPTIONS = [
