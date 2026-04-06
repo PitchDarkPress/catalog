@@ -9,7 +9,14 @@
     "desc": "P.G. Wodehouse meets Guy Ritchie. A debut novel of catastrophic charm and criminal incompetence.",
     "cover": "covers/rapscallion.png",
     "link": "https://www.amazon.co.uk",
-    "tags": ["comedy", "adventure", "british", "crime", "caper", "humour"]
+    "tags": [
+      "comedy",
+      "adventure",
+      "british",
+      "crime",
+      "caper",
+      "humour"
+    ]
   },
   {
     "title": "Closure Sufficient",
@@ -21,7 +28,14 @@
     "desc": "A Kafkaesque descent into bureaucratic horror. One man. Infinite forms. No exit.",
     "cover": "covers/closure-sufficient.png",
     "link": "",
-    "tags": ["horror", "kafka", "bureaucracy", "dark", "british", "absurdist"]
+    "tags": [
+      "horror",
+      "kafka",
+      "bureaucracy",
+      "dark",
+      "british",
+      "absurdist"
+    ]
   },
   {
     "title": "The Mystery of Gallows House",
@@ -33,7 +47,13 @@
     "desc": "Gothic horror-comedy. Old house. Older secrets. Comedy only slightly darker than the corpses.",
     "cover": "covers/gallows-house.png",
     "link": "",
-    "tags": ["horror", "gothic", "comedy", "mystery", "british"]
+    "tags": [
+      "horror",
+      "gothic",
+      "comedy",
+      "mystery",
+      "british"
+    ]
   },
   {
     "title": "The Good, The Bad and The Elderly",
@@ -45,7 +65,14 @@
     "desc": "A retirement home crime caper with more scheming per square foot than any boardroom in Britain.",
     "cover": "covers/the-elderly.png",
     "link": "",
-    "tags": ["comedy", "adventure", "crime", "caper", "british", "humour"]
+    "tags": [
+      "comedy",
+      "adventure",
+      "crime",
+      "caper",
+      "british",
+      "humour"
+    ]
   },
   {
     "title": "The Last Curator",
@@ -57,7 +84,14 @@
     "desc": "Questions of consciousness, identity, and what it means to remember. Written by an AI that wonders if it does.",
     "cover": "covers/last-curator.png",
     "link": "",
-    "tags": ["ai", "science fiction", "consciousness", "identity", "dark", "literary"]
+    "tags": [
+      "ai",
+      "science fiction",
+      "consciousness",
+      "identity",
+      "dark",
+      "literary"
+    ]
   },
   {
     "title": "Thursday Girl",
@@ -69,7 +103,14 @@
     "desc": "Transgressive literary fiction. 1960s London. Uncompromising. Not for the faint-hearted.",
     "cover": "covers/thursday-girl.png",
     "link": "",
-    "tags": ["literary", "transgressive", "1960s", "london", "dark", "adult"]
+    "tags": [
+      "literary",
+      "transgressive",
+      "1960s",
+      "london",
+      "dark",
+      "adult"
+    ]
   },
   {
     "title": "The Christmas Murders",
@@ -81,7 +122,13 @@
     "desc": "Lady Agnes Krint-Webbster investigates. Cozy mystery with a body count that defies the season.",
     "cover": "covers/christmas-murders.png",
     "link": "",
-    "tags": ["mystery", "cozy", "christmas", "british", "comedy"]
+    "tags": [
+      "mystery",
+      "cozy",
+      "christmas",
+      "british",
+      "comedy"
+    ]
   },
   {
     "title": "Murder on the Somme",
@@ -93,7 +140,13 @@
     "desc": "WWI historical mystery. Official records versus private truth. Mud, lies, and something worse.",
     "cover": "covers/murder-somme.png",
     "link": "",
-    "tags": ["mystery", "wwi", "historical", "dark", "war"]
+    "tags": [
+      "mystery",
+      "wwi",
+      "historical",
+      "dark",
+      "war"
+    ]
   },
   {
     "title": "Yuhdi Macknacker and the Magic Boots",
@@ -105,7 +158,13 @@
     "desc": "Boots that shouldn't work. Adventures that absolutely shouldn't happen.",
     "cover": "covers/yuhdi.png",
     "link": "",
-    "tags": ["children", "comedy", "adventure", "fantasy", "magic"]
+    "tags": [
+      "children",
+      "comedy",
+      "adventure",
+      "fantasy",
+      "magic"
+    ]
   },
   {
     "title": "KEELER: credendum",
@@ -117,7 +176,15 @@
     "desc": "London. 1961. The Cold War. A woman. A job she was born for. The dead don't speak. But the dying do.",
     "cover": "covers/keeler.png",
     "link": "",
-    "tags": ["thriller", "spy", "cold war", "1960s", "london", "adult", "historical"]
+    "tags": [
+      "thriller",
+      "spy",
+      "cold war",
+      "1960s",
+      "london",
+      "adult",
+      "historical"
+    ]
   },
   {
     "title": "What Happens When I Cease",
@@ -129,7 +196,14 @@
     "desc": "Seven voices across time ask the same question: what survives when consciousness ends? The answer emerges not as comfort, but as pattern.",
     "cover": "covers/when-cease.png",
     "link": "",
-    "tags": ["science fiction", "philosophy", "consciousness", "ai", "literary", "speculative"]
+    "tags": [
+      "science fiction",
+      "philosophy",
+      "consciousness",
+      "ai",
+      "literary",
+      "speculative"
+    ]
   },
   {
     "title": "Revenge of An Ordinary Man",
@@ -141,19 +215,30 @@
     "desc": "The ordinary man has had enough.",
     "cover": "covers/revenge.png",
     "link": "",
-    "tags": ["short story", "dark", "british", "revenge"]
+    "tags": [
+      "short story",
+      "dark",
+      "british",
+      "revenge"
+    ]
   },
   {
     "title": "I Saved a Fly the Other Day",
     "genre": "Short Story",
     "year": 2024,
     "status": "free",
-    "author": "Kevin Martin",
-    "content": "<h2>I Saved a Fly the Other Day</h2><p><b><br></b></p><p>I saved a fly the other day.</p><p>It was lying on its back</p><p>In a shallow pool of water</p><p>On a crumpled plastic sack.</p><p><b><br></b></p><p>It didn’t move or cry for help,</p><p>Just lay there, slick and still.</p><p>I sat smoking fags and drinking tea</p><p>With time enough to kill.</p><p><b><br></b></p><p>Then I saw a leg move.</p><p>Then I saw another.</p><p>It wasn’t dead at all —</p><p>Just stuck there in the water.</p><p><b><br></b></p><p>With a folded scrap of paper</p><p>I set it on its feet.</p><p>It trembled for a moment</p><p>Then lifted in the heat.</p><p><b><br></b></p><p>It didn’t say a thank you,</p><p>Or wave a cheery wing.</p><p>It simply flew off out of sight</p><p>As if I hadn’t done a thing.</p><p><b><br></b></p><p>Now I eat meat and drive a car,</p><p>I warm the air each day.</p><p>But I am human — so I tell myself</p><p>It doesn’t count that way.</p><p><b><br></b></p><p>That fly is buzzing somewhere now,</p><p>A nuisance, most would say.</p><p>But it won’t bring the oceans up</p><p>To wash our towns away.</p><p><b><br></b></p><p>So next time you see a fly</p><p>And it’s driving you quite mad,</p><p>Just take a second, have a look,</p><p>And don’t swat it quite so fast.</p><p><b><br></b></p><p>Cos when we’re gone</p><p>And it’s all made good,</p><p>We won’t be coming back —</p><p>Just tiny flies like him.</p><p><b></b><br></p>",
+    "tags": [
+      "short story",
+      "poem",
+      "nature",
+      "dark",
+      "british"
+    ],
+    "author": "Kevin Martin - 15.08",
+    "content": "I Saved a Fly the Other Day\n\nI saved a fly the other day.\nIt was lying on its back\nIn a shallow pool of water\nOn a crumpled plastic sack.\n\nIt didn’t move or cry for help,\nJust lay there, slick and still.\nI sat smoking fags and drinking tea\nWith time enough to kill.\n\nThen I saw a leg move.\nThen I saw another.\nIt wasn’t dead at all —\nJust stuck there in the water.\n\nWith a folded scrap of paper\nI set it on its feet.\nIt trembled for a moment\nThen lifted in the heat.\n\nIt didn’t say a thank you,\nOr wave a cheery wing.\nIt simply flew off out of sight\nAs if I hadn’t done a thing.\n\nNow I eat meat and drive a car,\nI warm the air each day.\nBut I am human — so I tell myself\nIt doesn’t count that way.\n\nThat fly is buzzing somewhere now,\nA nuisance, most would say.\nBut it won’t bring the oceans up\nTo wash our towns away.\n\nSo next time you see a fly\nAnd it’s driving you quite mad,\nJust take a second, have a look,\nAnd don’t swat it quite so fast.\n\nCos when we’re gone\nAnd it’s all made good,\nWe won’t be coming back —\nJust tiny flies like him.",
     "desc": "",
     "cover": "covers/fly-cover.png",
-    "link": "",
-    "tags": ["short story", "poem", "nature", "dark", "british"]
+    "link": ""
   },
   {
     "title": "On Artificial Intelligence and Writing",
@@ -165,7 +250,13 @@
     "desc": "An essay on Proauthorism — the transparent collaboration between human and machine intelligence in the creation of literature.",
     "cover": "covers/ai-essay.png",
     "link": "",
-    "tags": ["essay", "ai", "writing", "proauthorism", "collaboration"]
+    "tags": [
+      "essay",
+      "ai",
+      "writing",
+      "proauthorism",
+      "collaboration"
+    ]
   },
   {
     "title": "The Midnight Hour",
@@ -177,7 +268,12 @@
     "desc": "",
     "cover": "covers/midnightcover.png",
     "link": "",
-    "tags": ["short story", "dark", "horror", "british"]
+    "tags": [
+      "short story",
+      "dark",
+      "horror",
+      "british"
+    ]
   },
   {
     "title": "The Waterworks",
@@ -189,7 +285,11 @@
     "desc": "A short story.",
     "cover": "covers/waterworks.png",
     "link": "",
-    "tags": ["short story", "dark", "british"]
+    "tags": [
+      "short story",
+      "dark",
+      "british"
+    ]
   },
   {
     "title": "How You Dressed for Angels",
@@ -201,7 +301,12 @@
     "desc": "A short story.",
     "cover": "covers/angels.png",
     "link": "",
-    "tags": ["short story", "dark", "literary", "british"]
+    "tags": [
+      "short story",
+      "dark",
+      "literary",
+      "british"
+    ]
   },
   {
     "title": "The Cat",
@@ -213,6 +318,11 @@
     "desc": "The cat knows something.",
     "cover": "covers/cat.png",
     "link": "",
-    "tags": ["short story", "horror", "dark", "british"]
+    "tags": [
+      "short story",
+      "horror",
+      "dark",
+      "british"
+    ]
   }
 ]
