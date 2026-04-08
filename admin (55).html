@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pitch Dark Press Admin</title>
+  <style>
+    :root {
+      --bg: #0d0b10;
+      --panel: #17131d;
+      --panel-2: #201927;
+      --line: #352b40;
+      --text: #f4eef9;
+      --muted: #b7a9c7;
+      --accent: #8f5bd6;
+      --accent-2: #a97df0;
+      --danger: #c65b7c;
+      --ok: #59b68d;
+      --shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      --radius: 14px;
+      --toolbar-h: 52px;
+      --editor-h: 420px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      padding: 22px;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 18px 18px 0;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .small {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    input[type="search"],
+    select,
+    textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(169,125,240,0.15);
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.18s ease;
+      font-weight: 700;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-2);
+    }
+
+    button.primary {
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+      border-color: transparent;
+    }
+
+    button.danger {
+      background: rgba(198,91,124,0.12);
+      border-color: rgba(198,91,124,0.4);
+      color: #ffd2df;
+    }
+
+    button.ghost {
+      background: transparent;
+    }
+
+    button.active {
+      background: rgba(169,125,240,0.18);
+      border-color: var(--accent-2);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .list-wrap {
+      display: grid;
+      gap: 12px;
+    }
+
+    .entry-list {
+      max-height: calc(100vh - 260px);
+      overflow: auto;
+      display: grid;
+      gap: 10px;
+      padding-right: 4px;
+    }
+
+    .entry-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      display: grid;
+      gap: 4px;
+    }
+
+    .entry-card.active {
+      border-color: var(--accent-2);
+      background: rgba(169,125,240,0.14);
+    }
+
+    .entry-card strong {
+      font-size: 1rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .statusbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(13,11,16,0.92);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .status-message {
+      font-weight: 700;
+    }
+
+    .status-message.ok { color: #b6ffd9; }
+    .status-message.warn { color: #ffe8a1; }
+    .status-message.error { color: #ffc7d7; }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .editor-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.16);
+    }
+
+    .editor-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      height: var(--toolbar-h);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      background: rgba(21, 16, 28, 0.98);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .editor-toolbar .sep {
+      width: 1px;
+      height: 26px;
+      background: var(--line);
+      margin: 0 2px;
+    }
+
+    .tool-btn {
+      min-width: 42px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    .editor-scroll {
+      height: var(--editor-h);
+      overflow: auto;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .editor {
+      min-height: calc(var(--editor-h) - var(--toolbar-h));
+      padding: 18px;
+      outline: none;
+      line-height: 1.65;
+      font-size: 1.02rem;
+      word-break: break-word;
+    }
+
+    .editor p,
+    .editor div {
+      margin: 0 0 1em;
+    }
+
+    .editor p:last-child,
+    .editor div:last-child {
+      margin-bottom: 0;
+    }
+
+    .editor:empty::before {
+      content: attr(data-placeholder);
+      color: #9b8bab;
+    }
+
+    .preview {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: rgba(255,255,255,0.03);
+      min-height: 120px;
+    }
+
+    .preview img {
+      max-width: 220px;
+      border-radius: 12px;
+      display: block;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.2);
+    }
+
+    .preview-content {
+      line-height: 1.65;
+      white-space: normal;
+    }
+
+    .preview-content p,
+    .preview-content div {
+      margin: 0 0 1em;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1100px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-list {
+        max-height: 320px;
+      }
+
+      .meta-grid,
+      .grid.two {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="statusbar panel">
+    <div>
+      <div class="status-message warn" id="statusMessage">Ready.</div>
+      <div class="small" id="statusDetail">Load books.json to begin.</div>
+    </div>
+    <div class="button-row">
+      <button class="ghost" id="loadBooksBtn" type="button">Load books.json</button>
+      <button class="ghost" id="saveDraftBtn" type="button">Save in editor</button>
+      <button class="primary" id="publishBtn" type="button">Publish books.json</button>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="panel">
+      <div class="panel-head">
+        <div class="title-row">
+          <div>
+            <h2>Books</h2>
+            <p class="small">Open, edit, save, publish.</p>
+          </div>
+          <button id="newEntryBtn" type="button">New entry</button>
+        </div>
+      </div>
+      <div class="panel-body list-wrap">
+        <label>
+          Search
+          <input id="searchInput" type="search" placeholder="Type title, author, tag...">
+        </label>
+        <div class="entry-list" id="entryList"></div>
+      </div>
+    </aside>
+
+    <main class="panel">
+      <div class="panel-head">
+        <div class="title-row">
+          <div>
+            <h1>Pitch Dark Press Admin</h1>
+            <p class="small">Stable editor. Clean HTML only.</p>
+          </div>
+          <div class="button-row">
+            <button id="duplicateBtn" type="button">Duplicate entry</button>
+            <button class="danger" id="deleteBtn" type="button">Delete entry</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="grid two" style="margin-bottom:16px;">
+          <label>
+            GitHub owner
+            <input id="repoOwner" type="text" placeholder="owner">
+          </label>
+          <label>
+            Repo name
+            <input id="repoName" type="text" placeholder="repo">
+          </label>
+        </div>
+
+        <div class="grid two" style="margin-bottom:18px;">
+          <label>
+            Branch
+            <input id="repoBranch" type="text" placeholder="main">
+          </label>
+          <label>
+            Token key
+            <input type="text" value="pdp_token" readonly>
+          </label>
+        </div>
+
+        <div class="meta-grid">
+          <label>
+            Title
+            <input id="fieldTitle" type="text" placeholder="Book title">
+          </label>
+          <label>
+            Author
+            <input id="fieldAuthor" type="text" placeholder="Author name">
+          </label>
+          <label>
+            Status
+            <input id="fieldStatus" type="text" placeholder="draft, published, coming soon...">
+          </label>
+          <label>
+            Genre
+            <input id="fieldGenre" type="text" placeholder="Genre">
+          </label>
+          <label>
+            Year
+            <input id="fieldYear" type="number" placeholder="2026">
+          </label>
+          <label>
+            Tags
+            <input id="fieldTags" type="text" placeholder="comma, separated, tags">
+          </label>
+          <label>
+            Slug / ID
+            <input id="fieldSlug" type="text" placeholder="auto-generated-if-empty">
+          </label>
+          <label>
+            Cover image
+            <input id="fieldCover" type="text" placeholder="/covers/example.jpg">
+          </label>
+        </div>
+
+        <div class="grid two" style="margin-bottom:18px; align-items:start;">
+          <div class="preview">
+            <h3>Cover preview</h3>
+            <img id="coverPreview" alt="Cover preview" class="hidden">
+            <p id="coverPreviewEmpty" class="small">No cover selected.</p>
+            <div style="height:12px;"></div>
+            <label>
+              Upload new cover
+              <input id="coverUpload" type="file" accept="image/*">
+            </label>
+            <div style="height:10px;"></div>
+            <button id="uploadCoverBtn" type="button">Upload cover to /covers/</button>
+          </div>
+
+          <div class="preview">
+            <h3>Saved HTML preview</h3>
+            <div class="preview-content" id="htmlPreview"></div>
+          </div>
+        </div>
+
+        <div class="editor-card">
+          <div class="editor-toolbar" id="editorToolbar">
+            <button class="tool-btn" type="button" data-command="bold" title="Bold"><strong>B</strong></button>
+            <button class="tool-btn" type="button" data-command="italic" title="Italic"><em>I</em></button>
+            <button class="tool-btn" type="button" data-command="underline" title="Underline"><u>U</u></button>
+            <span class="sep"></span>
+            <button class="tool-btn" type="button" data-align="left" title="Align Left">L</button>
+            <button class="tool-btn" type="button" data-align="center" title="Align Center">C</button>
+            <button class="tool-btn" type="button" data-align="right" title="Align Right">R</button>
+            <span class="sep"></span>
+            <button class="tool-btn" type="button" id="paragraphBtn" title="Paragraph">P</button>
+            <button class="tool-btn" type="button" id="lineBreakBtn" title="Line Break">↵</button>
+          </div>
+          <div class="editor-scroll">
+            <div id="editor" class="editor" contenteditable="true" spellcheck="true" data-placeholder="Type or paste here..."></div>
+          </div>
+        </div>
+
+        <div style="height:18px;"></div>
+
+        <div class="button-row" style="margin-bottom:14px;">
+          <button id="normalizeBtn" type="button">Normalize HTML</button>
+          <button id="reloadPreviewBtn" type="button">Refresh preview</button>
+          <button id="clearEditorBtn" type="button">Clear editor</button>
+        </div>
+
+        <div class="preview">
+          <h3>Clean HTML</h3>
+          <textarea id="cleanHtmlOutput" class="mono" readonly></textarea>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEYS = {
+      owner: 'pdp_repo_owner',
+      repo: 'pdp_repo_name',
+      branch: 'pdp_repo_branch',
+      token: 'pdp_token',
+      lastSelected: 'pdp_selected_slug'
+    };
+
+    const state = {
+      booksData: [],
+      rootData: null,
+      rootMode: 'array',
+      booksSha: '',
+      selectedIndex: -1,
+      draftMap: new Map(),
+      lastLoadedAt: null
+    };
+
+    const els = {
+      statusMessage: document.getElementById('statusMessage'),
+      statusDetail: document.getElementById('statusDetail'),
+      loadBooksBtn: document.getElementById('loadBooksBtn'),
+      saveDraftBtn: document.getElementById('saveDraftBtn'),
+      publishBtn: document.getElementById('publishBtn'),
+      newEntryBtn: document.getElementById('newEntryBtn'),
+      duplicateBtn: document.getElementById('duplicateBtn'),
+      deleteBtn: document.getElementById('deleteBtn'),
+      searchInput: document.getElementById('searchInput'),
+      entryList: document.getElementById('entryList'),
+      repoOwner: document.getElementById('repoOwner'),
+      repoName: document.getElementById('repoName'),
+      repoBranch: document.getElementById('repoBranch'),
+      fieldTitle: document.getElementById('fieldTitle'),
+      fieldAuthor: document.getElementById('fieldAuthor'),
+      fieldStatus: document.getElementById('fieldStatus'),
+      fieldGenre: document.getElementById('fieldGenre'),
+      fieldYear: document.getElementById('fieldYear'),
+      fieldTags: document.getElementById('fieldTags'),
+      fieldSlug: document.getElementById('fieldSlug'),
+      fieldCover: document.getElementById('fieldCover'),
+      coverPreview: document.getElementById('coverPreview'),
+      coverPreviewEmpty: document.getElementById('coverPreviewEmpty'),
+      coverUpload: document.getElementById('coverUpload'),
+      uploadCoverBtn: document.getElementById('uploadCoverBtn'),
+      htmlPreview: document.getElementById('htmlPreview'),
+      editor: document.getElementById('editor'),
+      cleanHtmlOutput: document.getElementById('cleanHtmlOutput'),
+      normalizeBtn: document.getElementById('normalizeBtn'),
+      reloadPreviewBtn: document.getElementById('reloadPreviewBtn'),
+      clearEditorBtn: document.getElementById('clearEditorBtn'),
+      paragraphBtn: document.getElementById('paragraphBtn'),
+      lineBreakBtn: document.getElementById('lineBreakBtn'),
+      editorToolbar: document.getElementById('editorToolbar')
+    };
+
+    function setStatus(message, detail = '', type = 'warn') {
+      els.statusMessage.textContent = message;
+      els.statusMessage.className = `status-message ${type}`;
+      els.statusDetail.textContent = detail || '';
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function slugify(input) {
+      return String(input || '')
+        .toLowerCase()
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .replace(/-{2,}/g, '-')
+        .trim();
+    }
+
+    function tagsToArray(input) {
+      if (Array.isArray(input)) return input.map(v => String(v).trim()).filter(Boolean);
+      return String(input || '')
+        .split(',')
+        .map(v => v.trim())
+        .filter(Boolean);
+    }
+
+    function tagsToString(input) {
+      return tagsToArray(input).join(', ');
+    }
+
+    function toBase64Unicode(str) {
+      return btoa(unescape(encodeURIComponent(str)));
+    }
+
+    function fromBase64Unicode(str) {
+      return decodeURIComponent(escape(atob(str)));
+    }
+
+    function getToken() {
+      return localStorage.getItem(STORAGE_KEYS.token) || '';
+    }
+
+    function saveRepoSettings() {
+      localStorage.setItem(STORAGE_KEYS.owner, els.repoOwner.value.trim());
+      localStorage.setItem(STORAGE_KEYS.repo, els.repoName.value.trim());
+      localStorage.setItem(STORAGE_KEYS.branch, els.repoBranch.value.trim() || 'main');
+    }
+
+    function loadRepoSettings() {
+      els.repoOwner.value = localStorage.getItem(STORAGE_KEYS.owner) || '';
+      els.repoName.value = localStorage.getItem(STORAGE_KEYS.repo) || '';
+      els.repoBranch.value = localStorage.getItem(STORAGE_KEYS.branch) || 'main';
+    }
+
+    function getRepoInfo() {
+      const owner = els.repoOwner.value.trim();
+      const repo = els.repoName.value.trim();
+      const branch = (els.repoBranch.value.trim() || 'main');
+      if (!owner || !repo) {
+        throw new Error('GitHub owner and repo name are required.');
+      }
+      const token = getToken();
+      if (!token) {
+        throw new Error('Missing token in localStorage key pdp_token.');
+      }
+      return { owner, repo, branch, token };
+    }
+
+    async function githubRequest(path, options = {}) {
+      const { owner, repo, token } = getRepoInfo();
+      const res = await fetch(`https://api.github.com/repos/${owner}/${repo}${path}`, {
+        ...options,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/vnd.github+json',
+          ...(options.headers || {})
+        }
+      });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`GitHub API error ${res.status}: ${text}`);
+      }
+      return res.json();
+    }
+
+    function detectBooksRoot(data) {
+      if (Array.isArray(data)) return { mode: 'array', books: data };
+      if (data && Array.isArray(data.books)) return { mode: 'books-prop', books: data.books };
+      throw new Error('books.json must be an array or an object with a books array.');
+    }
+
+    function buildSavePayload(books) {
+      if (state.rootMode === 'array') return books;
+      const clone = JSON.parse(JSON.stringify(state.rootData || {}));
+      clone.books = books;
+      return clone;
+    }
+
+    function coerceToHtml(content) {
+      if (content == null) return '<p><br></p>';
+      if (typeof content !== 'string') return `<p>${escapeHtml(String(content))}</p>`;
+      const trimmed = content.trim();
+      if (!trimmed) return '<p><br></p>';
+      if (/<[a-z][\s\S]*>/i.test(trimmed)) return trimmed;
+
+      const normalized = trimmed.replace(/\r\n?/g, '\n');
+      const blocks = normalized.split(/\n{2,}/).map(part => part.trim()).filter(Boolean);
+      if (!blocks.length) return '<p><br></p>';
+      return blocks.map(block => {
+        const lines = escapeHtml(block).split('\n');
+        return `<p>${lines.join('<br>')}</p>`;
+      }).join('');
+    }
+
+    function normalizeNode(node, outDoc) {
+      if (!node) return null;
+
+      if (node.nodeType === Node.TEXT_NODE) {
+        return outDoc.createTextNode(node.nodeValue || '');
+      }
+
+      if (node.nodeType !== Node.ELEMENT_NODE) {
+        return null;
+      }
+
+      const tag = node.tagName.toLowerCase();
+
+      if (tag === 'br') {
+        return outDoc.createElement('br');
+      }
+
+      const allowedInline = {
+        strong: 'strong',
+        b: 'strong',
+        em: 'em',
+        i: 'em',
+        u: 'u'
+      };
+
+      if (allowedInline[tag]) {
+        const clean = outDoc.createElement(allowedInline[tag]);
+        Array.from(node.childNodes).forEach(child => {
+          const cleaned = normalizeNode(child, outDoc);
+          if (cleaned) clean.appendChild(cleaned);
+        });
+        return clean;
+      }
+
+      const blockLike = ['p', 'div', 'section', 'article', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li'];
+      if (blockLike.includes(tag) || tag === 'ul' || tag === 'ol') {
+        const cleanBlock = outDoc.createElement('p');
+        const style = (node.getAttribute('style') || '').toLowerCase();
+        const alignAttr = (node.getAttribute('align') || '').toLowerCase();
+        let align = '';
+        const styleMatch = style.match(/text-align\s*:\s*(left|center|right)/);
+        if (styleMatch) align = styleMatch[1];
+        if (!align && ['left', 'center', 'right'].includes(alignAttr)) align = alignAttr;
+        if (align) {
+          const alignedDiv = outDoc.createElement('div');
+          alignedDiv.setAttribute('style', `text-align:${align}`);
+          Array.from(node.childNodes).forEach(child => {
+            const cleaned = normalizeNode(child, outDoc);
+            if (cleaned) alignedDiv.appendChild(cleaned);
+          });
+          return alignedDiv;
+        }
+        Array.from(node.childNodes).forEach(child => {
+          const cleaned = normalizeNode(child, outDoc);
+          if (cleaned) cleanBlock.appendChild(cleaned);
+        });
+        return cleanBlock;
+      }
+
+      const fragment = outDoc.createDocumentFragment();
+      Array.from(node.childNodes).forEach(child => {
+        const cleaned = normalizeNode(child, outDoc);
+        if (cleaned) fragment.appendChild(cleaned);
+      });
+      return fragment;
+    }
+
+    function cleanSimpleHtml(inputHtml) {
+      const raw = String(inputHtml || '').replace(/\r\n?/g, '\n');
+      const parser = new DOMParser();
+      const srcDoc = parser.parseFromString(`<div>${raw}</div>`, 'text/html');
+      const outDoc = document.implementation.createHTMLDocument('clean');
+      const container = outDoc.createElement('div');
+
+      Array.from(srcDoc.body.firstChild.childNodes).forEach(child => {
+        const cleaned = normalizeNode(child, outDoc);
+        if (cleaned) container.appendChild(cleaned);
+      });
+
+      if (!container.childNodes.length) {
+        return '<p><br></p>';
+      }
+
+      Array.from(container.childNodes).forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim()) {
+          const p = outDoc.createElement('p');
+          p.textContent = node.nodeValue;
+          container.replaceChild(p, node);
+        }
+      });
+
+      let html = container.innerHTML;
+
+      html = html
+        .replace(/<(strong|em|u)><\/\1>/g, '')
+        .replace(/<p>\s*<\/p>/g, '<p><br></p>')
+        .replace(/<div style="text-align:(left|center|right)">\s*<\/div>/g, '<div style="text-align:$1"><br></div>')
+        .replace(/<(p|div)([^>]*)>\s*(<br>)?\s*<\/\1>/g, '<$1$2><br></$1>')
+        .replace(/<p>(?:\s|&nbsp;)+/g, '<p>')
+        .replace(/(?:\s|&nbsp;)+<\/p>/g, '</p>')
+        .replace(/<div style="text-align:(left|center|right)">\s*<p>/g, '<div style="text-align:$1"><p>')
+        .replace(/<\/p>\s*<\/div>/g, '</p></div>');
+
+      const finalDoc = parser.parseFromString(`<div>${html}</div>`, 'text/html');
+      const blocks = [];
+
+      Array.from(finalDoc.body.firstChild.childNodes).forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          if (node.nodeValue.trim()) {
+            blocks.push(`<p>${escapeHtml(node.nodeValue.trim())}</p>`);
+          }
+          return;
+        }
+        if (node.nodeType !== Node.ELEMENT_NODE) return;
+        const tag = node.tagName.toLowerCase();
+        if (tag === 'p') {
+          blocks.push(node.outerHTML);
+          return;
+        }
+        if (tag === 'div') {
+          const style = (node.getAttribute('style') || '').toLowerCase();
+          const match = style.match(/text-align\s*:\s*(left|center|right)/);
+          if (match) {
+            const inner = node.innerHTML.trim() || '<br>';
+            blocks.push(`<div style="text-align:${match[1]}">${inner}</div>`);
+          } else {
+            blocks.push(`<p>${node.innerHTML.trim() || '<br>'}</p>`);
+          }
+          return;
+        }
+        if (tag === 'br') {
+          if (!blocks.length) blocks.push('<p><br></p>');
+          else blocks[blocks.length - 1] = blocks[blocks.length - 1].replace(/<(\/p|\/div)>$/, '<br>$&');
+        }
+      });
+
+      const stable = blocks.join('').trim() || '<p><br></p>';
+      return stable;
+    }
+
+    function renderHtmlPreview() {
+      const clean = cleanSimpleHtml(els.editor.innerHTML);
+      els.cleanHtmlOutput.value = clean;
+      els.htmlPreview.innerHTML = clean;
+    }
+
+    function normalizeEditorContent() {
+      const clean = cleanSimpleHtml(els.editor.innerHTML);
+      els.editor.innerHTML = clean;
+      renderHtmlPreview();
+      setStatus('Editor normalized.', 'Clean HTML refreshed.', 'ok');
+    }
+
+    function currentFormData() {
+      const title = els.fieldTitle.value.trim();
+      const slug = els.fieldSlug.value.trim() || slugify(title);
+      const original = state.selectedIndex >= 0 ? state.booksData[state.selectedIndex] : {};
+      return {
+        ...original,
+        title,
+        author: els.fieldAuthor.value.trim(),
+        status: els.fieldStatus.value.trim(),
+        genre: els.fieldGenre.value.trim(),
+        year: els.fieldYear.value ? Number(els.fieldYear.value) : '',
+        tags: tagsToArray(els.fieldTags.value),
+        slug,
+        id: original.id || slug,
+        cover: els.fieldCover.value.trim(),
+        content: cleanSimpleHtml(els.editor.innerHTML)
+      };
+    }
+
+    function selectEntry(index) {
+      if (index < 0 || index >= state.booksData.length) {
+        state.selectedIndex = -1;
+        clearForm();
+        renderEntryList();
+        return;
+      }
+
+      state.selectedIndex = index;
+      const book = state.booksData[index];
+
+      els.fieldTitle.value = book.title || '';
+      els.fieldAuthor.value = book.author || '';
+      els.fieldStatus.value = book.status || '';
+      els.fieldGenre.value = book.genre || '';
+      els.fieldYear.value = book.year || '';
+      els.fieldTags.value = tagsToString(book.tags || '');
+      els.fieldSlug.value = book.slug || book.id || '';
+      els.fieldCover.value = book.cover || '';
+
+      const safeHtml = cleanSimpleHtml(coerceToHtml(book.content || ''));
+      els.editor.innerHTML = safeHtml;
+      renderHtmlPreview();
+      updateCoverPreview();
+      localStorage.setItem(STORAGE_KEYS.lastSelected, book.slug || book.id || '');
+      renderEntryList();
+      setStatus('Entry opened.', `${book.title || 'Untitled'} is ready to edit.`, 'ok');
+    }
+
+    function clearForm() {
+      els.fieldTitle.value = '';
+      els.fieldAuthor.value = '';
+      els.fieldStatus.value = '';
+      els.fieldGenre.value = '';
+      els.fieldYear.value = '';
+      els.fieldTags.value = '';
+      els.fieldSlug.value = '';
+      els.fieldCover.value = '';
+      els.editor.innerHTML = '<p><br></p>';
+      renderHtmlPreview();
+      updateCoverPreview();
+    }
+
+    function saveCurrentIntoState() {
+      const data = currentFormData();
+      if (!data.title) {
+        throw new Error('Title is required.');
+      }
+
+      if (!data.slug) {
+        throw new Error('Slug / ID could not be created.');
+      }
+
+      const duplicateIndex = state.booksData.findIndex((item, idx) => idx !== state.selectedIndex && (item.slug || item.id) === data.slug);
+      if (duplicateIndex >= 0) {
+        throw new Error('Slug / ID must be unique.');
+      }
+
+      if (state.selectedIndex >= 0) {
+        state.booksData[state.selectedIndex] = data;
+      } else {
+        state.booksData.unshift(data);
+        state.selectedIndex = 0;
+      }
+
+      renderEntryList();
+      renderHtmlPreview();
+      setStatus('Editor saved.', 'Changes are in the admin panel. Publish to write books.json.', 'ok');
+    }
+
+    function renderEntryList() {
+      const q = els.searchInput.value.trim().toLowerCase();
+      const selectedKey = state.selectedIndex >= 0 ? (state.booksData[state.selectedIndex].slug || state.booksData[state.selectedIndex].id) : '';
+      els.entryList.innerHTML = '';
+
+      const filtered = state.booksData
+        .map((book, index) => ({ book, index }))
+        .filter(({ book }) => {
+          if (!q) return true;
+          const hay = [
+            book.title,
+            book.author,
+            book.genre,
+            book.status,
+            tagsToString(book.tags),
+            book.slug,
+            book.id
+          ].join(' ').toLowerCase();
+          return hay.includes(q);
+        });
+
+      if (!filtered.length) {
+        const empty = document.createElement('div');
+        empty.className = 'small';
+        empty.textContent = 'No entries found.';
+        els.entryList.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(({ book, index }) => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'entry-card' + (((book.slug || book.id) === selectedKey) ? ' active' : '');
+        card.innerHTML = `
+          <strong>${escapeHtml(book.title || 'Untitled')}</strong>
+          <div class="small">${escapeHtml(book.author || '')}</div>
+          <div class="pill-row">
+            <span class="pill">${escapeHtml(book.status || 'no status')}</span>
+            <span class="pill">${escapeHtml(book.genre || 'no genre')}</span>
+            <span class="pill">${escapeHtml(String(book.year || 'no year'))}</span>
+          </div>
+        `;
+        card.addEventListener('click', () => selectEntry(index));
+        els.entryList.appendChild(card);
+      });
+    }
+
+    async function loadBooksJson() {
+      saveRepoSettings();
+      setStatus('Loading books.json...', 'Reading from GitHub.', 'warn');
+      const { branch } = getRepoInfo();
+      const data = await githubRequest(`/contents/books.json?ref=${encodeURIComponent(branch)}`);
+      state.booksSha = data.sha;
+      const raw = fromBase64Unicode(data.content.replace(/\n/g, ''));
+      const parsed = JSON.parse(raw);
+      const detected = detectBooksRoot(parsed);
+      state.rootData = parsed;
+      state.rootMode = detected.mode;
+      state.booksData = JSON.parse(JSON.stringify(detected.books || []));
+      state.lastLoadedAt = new Date().toISOString();
+      renderEntryList();
+
+      const lastSelected = localStorage.getItem(STORAGE_KEYS.lastSelected) || '';
+      const preferred = state.booksData.findIndex(book => (book.slug || book.id) === lastSelected);
+      if (preferred >= 0) selectEntry(preferred);
+      else if (state.booksData.length) selectEntry(0);
+      else {
+        state.selectedIndex = -1;
+        clearForm();
+      }
+
+      setStatus('books.json loaded.', `${state.booksData.length} entr${state.booksData.length === 1 ? 'y' : 'ies'} ready.`, 'ok');
+    }
+
+    async function publishBooksJson() {
+      saveCurrentIntoState();
+      saveRepoSettings();
+      setStatus('Publishing books.json...', 'Writing clean JSON to GitHub.', 'warn');
+      const { branch } = getRepoInfo();
+      const payloadObject = buildSavePayload(state.booksData);
+      const text = JSON.stringify(payloadObject, null, 2) + '\n';
+      const body = {
+        message: 'Update books.json from Pitch Dark Press admin',
+        content: toBase64Unicode(text),
+        sha: state.booksSha,
+        branch
+      };
+      const response = await githubRequest('/contents/books.json', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      state.booksSha = response.content.sha;
+      setStatus('books.json published.', 'GitHub save complete.', 'ok');
+    }
+
+    function updateCoverPreview() {
+      const src = els.fieldCover.value.trim();
+      if (!src) {
+        els.coverPreview.classList.add('hidden');
+        els.coverPreview.removeAttribute('src');
+        els.coverPreviewEmpty.classList.remove('hidden');
+        els.coverPreviewEmpty.textContent = 'No cover selected.';
+        return;
+      }
+      els.coverPreview.src = src;
+      els.coverPreview.classList.remove('hidden');
+      els.coverPreviewEmpty.classList.add('hidden');
+    }
+
+    async function uploadCover() {
+      const file = els.coverUpload.files[0];
+      if (!file) throw new Error('Choose a cover image first.');
+      saveRepoSettings();
+      const { branch } = getRepoInfo();
+
+      const safeName = file.name
+        .normalize('NFKD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9._-]+/g, '-')
+        .replace(/-{2,}/g, '-')
+        .toLowerCase();
+
+      const arrayBuffer = await file.arrayBuffer();
+      const bytes = new Uint8Array(arrayBuffer);
+      let binary = '';
+      for (let i = 0; i < bytes.byteLength; i += 1) binary += String.fromCharCode(bytes[i]);
+      const content = btoa(binary);
+
+      await githubRequest(`/contents/covers/${encodeURIComponent(safeName)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `Upload cover ${safeName}`,
+          content,
+          branch
+        })
+      });
+
+      els.fieldCover.value = `/covers/${safeName}`;
+      updateCoverPreview();
+      setStatus('Cover uploaded.', `/covers/${safeName} is ready.`, 'ok');
+    }
+
+    function deleteCurrentEntry() {
+      if (state.selectedIndex < 0) {
+        throw new Error('No entry is open.');
+      }
+      const current = state.booksData[state.selectedIndex];
+      const ok = window.confirm(`Delete "${current.title || 'Untitled'}" from books.json?`);
+      if (!ok) return;
+      state.booksData.splice(state.selectedIndex, 1);
+      if (state.booksData.length === 0) {
+        state.selectedIndex = -1;
+        clearForm();
+      } else {
+        state.selectedIndex = Math.max(0, state.selectedIndex - 1);
+        selectEntry(state.selectedIndex);
+      }
+      renderEntryList();
+      setStatus('Entry deleted in admin.', 'Publish books.json to make deletion live.', 'ok');
+    }
+
+    function duplicateCurrentEntry() {
+      const base = currentFormData();
+      const copy = JSON.parse(JSON.stringify(base));
+      copy.title = `${copy.title || 'Untitled'} Copy`;
+      copy.slug = `${copy.slug || slugify(copy.title || 'entry')}-copy`;
+      copy.id = copy.slug;
+      let nextSlug = copy.slug;
+      let counter = 2;
+      while (state.booksData.some(book => (book.slug || book.id) === nextSlug)) {
+        nextSlug = `${copy.slug}-${counter}`;
+        counter += 1;
+      }
+      copy.slug = nextSlug;
+      copy.id = nextSlug;
+      state.booksData.unshift(copy);
+      state.selectedIndex = 0;
+      selectEntry(0);
+      setStatus('Entry duplicated.', 'Publish books.json to make the copy live.', 'ok');
+    }
+
+    function createNewEntry() {
+      state.selectedIndex = -1;
+      clearForm();
+      els.fieldStatus.value = 'draft';
+      renderEntryList();
+      setStatus('New entry ready.', 'Add details, save in editor, then publish.', 'ok');
+    }
+
+    function placeCaretInsideEditor() {
+      els.editor.focus();
+    }
+
+    function execEditorCommand(command, value = null) {
+      placeCaretInsideEditor();
+      document.execCommand(command, false, value);
+      normalizeEditorContent();
+      refreshToolbarState();
+    }
+
+    function setAlignment(alignment) {
+      placeCaretInsideEditor();
+      const commands = { left: 'justifyLeft', center: 'justifyCenter', right: 'justifyRight' };
+      document.execCommand(commands[alignment], false, null);
+      normalizeEditorContent();
+      refreshToolbarState();
+    }
+
+    function insertParagraph() {
+      placeCaretInsideEditor();
+      document.execCommand('formatBlock', false, 'p');
+      normalizeEditorContent();
+      refreshToolbarState();
+    }
+
+    function insertLineBreak() {
+      placeCaretInsideEditor();
+      document.execCommand('insertLineBreak', false, null);
+      normalizeEditorContent();
+      refreshToolbarState();
+    }
+
+    function refreshToolbarState() {
+      const buttons = els.editorToolbar.querySelectorAll('[data-command], [data-align]');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      try {
+        if (document.queryCommandState('bold')) {
+          els.editorToolbar.querySelector('[data-command="bold"]').classList.add('active');
+        }
+        if (document.queryCommandState('italic')) {
+          els.editorToolbar.querySelector('[data-command="italic"]').classList.add('active');
+        }
+        if (document.queryCommandState('underline')) {
+          els.editorToolbar.querySelector('[data-command="underline"]').classList.add('active');
+        }
+        if (document.queryCommandState('justifyLeft')) {
+          els.editorToolbar.querySelector('[data-align="left"]').classList.add('active');
+        }
+        if (document.queryCommandState('justifyCenter')) {
+          els.editorToolbar.querySelector('[data-align="center"]').classList.add('active');
+        }
+        if (document.queryCommandState('justifyRight')) {
+          els.editorToolbar.querySelector('[data-align="right"]').classList.add('active');
+        }
+      } catch (err) {
+        // ignore browser command state errors
+      }
+    }
+
+    function handlePaste(event) {
+      event.preventDefault();
+      const html = event.clipboardData.getData('text/html');
+      const text = event.clipboardData.getData('text/plain');
+      let clean = '';
+
+      if (html && html.trim()) {
+        clean = cleanSimpleHtml(html);
+      } else if (text && text.trim()) {
+        clean = coerceToHtml(text);
+        clean = cleanSimpleHtml(clean);
+      } else {
+        clean = '<p><br></p>';
+      }
+
+      placeCaretInsideEditor();
+      document.execCommand('insertHTML', false, clean);
+      normalizeEditorContent();
+      refreshToolbarState();
+    }
+
+    function autoSlugFromTitle() {
+      if (!els.fieldSlug.dataset.manual || els.fieldSlug.dataset.manual !== 'true') {
+        els.fieldSlug.value = slugify(els.fieldTitle.value.trim());
+      }
+    }
+
+    function wireToolbar() {
+      els.editorToolbar.addEventListener('click', (event) => {
+        const btn = event.target.closest('button');
+        if (!btn) return;
+        if (btn.dataset.command) {
+          execEditorCommand(btn.dataset.command);
+          return;
+        }
+        if (btn.dataset.align) {
+          setAlignment(btn.dataset.align);
+        }
+      });
+    }
+
+    function wireEvents() {
+      els.repoOwner.addEventListener('change', saveRepoSettings);
+      els.repoName.addEventListener('change', saveRepoSettings);
+      els.repoBranch.addEventListener('change', saveRepoSettings);
+      els.searchInput.addEventListener('input', renderEntryList);
+      els.fieldTitle.addEventListener('input', autoSlugFromTitle);
+      els.fieldSlug.addEventListener('input', () => {
+        els.fieldSlug.dataset.manual = els.fieldSlug.value.trim() ? 'true' : 'false';
+      });
+      els.fieldCover.addEventListener('input', updateCoverPreview);
+
+      els.loadBooksBtn.addEventListener('click', async () => {
+        try {
+          await loadBooksJson();
+        } catch (err) {
+          setStatus('Load failed.', err.message, 'error');
+        }
+      });
+
+      els.saveDraftBtn.addEventListener('click', () => {
+        try {
+          saveCurrentIntoState();
+        } catch (err) {
+          setStatus('Save failed.', err.message, 'error');
+        }
+      });
+
+      els.publishBtn.addEventListener('click', async () => {
+        try {
+          await publishBooksJson();
+        } catch (err) {
+          setStatus('Publish failed.', err.message, 'error');
+        }
+      });
+
+      els.uploadCoverBtn.addEventListener('click', async () => {
+        try {
+          setStatus('Uploading cover...', 'Sending image to GitHub.', 'warn');
+          await uploadCover();
+        } catch (err) {
+          setStatus('Cover upload failed.', err.message, 'error');
+        }
+      });
+
+      els.newEntryBtn.addEventListener('click', createNewEntry);
+      els.deleteBtn.addEventListener('click', () => {
+        try {
+          deleteCurrentEntry();
+        } catch (err) {
+          setStatus('Delete failed.', err.message, 'error');
+        }
+      });
+
+      els.duplicateBtn.addEventListener('click', () => {
+        try {
+          duplicateCurrentEntry();
+        } catch (err) {
+          setStatus('Duplicate failed.', err.message, 'error');
+        }
+      });
+
+      els.normalizeBtn.addEventListener('click', normalizeEditorContent);
+      els.reloadPreviewBtn.addEventListener('click', renderHtmlPreview);
+      els.clearEditorBtn.addEventListener('click', () => {
+        els.editor.innerHTML = '<p><br></p>';
+        renderHtmlPreview();
+        setStatus('Editor cleared.', 'The entry is still safe until you save and publish.', 'ok');
+      });
+
+      els.paragraphBtn.addEventListener('click', insertParagraph);
+      els.lineBreakBtn.addEventListener('click', insertLineBreak);
+
+      els.editor.addEventListener('paste', handlePaste);
+      els.editor.addEventListener('input', renderHtmlPreview);
+      els.editor.addEventListener('keyup', refreshToolbarState);
+      els.editor.addEventListener('mouseup', refreshToolbarState);
+      els.editor.addEventListener('focus', refreshToolbarState);
+      document.addEventListener('selectionchange', () => {
+        if (document.activeElement === els.editor || els.editor.contains(document.activeElement)) {
+          refreshToolbarState();
+        }
+      });
+    }
+
+    function init() {
+      loadRepoSettings();
+      wireToolbar();
+      wireEvents();
+      createNewEntry();
+      setStatus('Ready.', 'Load books.json to begin.', 'warn');
+    }
+
+    init();
+  </script>
+</body>
+</html>
