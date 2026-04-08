@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch Dark Press Admin</title>
+<style>
+  :root{
+    --bg:#111111;
+    --panel:#1a1a1a;
+    --panel-2:#222222;
+    --line:#343434;
+    --text:#f3f0ea;
+    --muted:#b9b1a6;
+    --accent:#8c6a3b;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    padding:24px;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Georgia, "Times New Roman", serif;
+  }
+  .wrap{max-width:1100px;margin:0 auto}
+  h1{margin:0 0 8px 0;font-size:32px}
+  .version{margin:0 0 20px 0;color:#ffd37a;font-size:14px}
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+  }
+  .row{
+    display:grid;
+    grid-template-columns:1.2fr auto auto auto;
+    gap:12px;
+    align-items:end;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(260px,1fr));
+    gap:16px;
+  }
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field label{font-size:14px;color:var(--muted)}
+  input,select,button{font:inherit}
+  input[type="text"],input[type="number"],input[type="password"],select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--panel-2);
+    color:var(--text);
+  }
+  input[type="file"]{width:100%;color:var(--text)}
+  button{
+    padding:10px 14px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--panel-2);
+    color:var(--text);
+    cursor:pointer;
+  }
+  button:hover{border-color:var(--accent)}
+  button.danger{border-color:#5a2424}
+  .statusbar{margin-top:12px;min-height:24px;font-size:14px;color:var(--muted)}
+  .statusbar.good{color:#7ddf9f}
+  .statusbar.bad{color:#ff8d8d}
+  .cover-row{
+    display:grid;
+    grid-template-columns:minmax(240px,1fr) 220px;
+    gap:18px;
+    align-items:start;
+  }
+  .cover-preview{
+    width:220px;
+    aspect-ratio:2/3;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--panel-2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .cover-preview img{width:100%;height:100%;object-fit:cover;display:block}
+  .small{font-size:13px;color:var(--muted)}
+  .editor-shell{
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    background:var(--panel-2);
+  }
+  .toolbar{
+    position:sticky;
+    top:0;
+    z-index:5;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:10px;
+    border-bottom:1px solid var(--line);
+    background:#1d1d1d;
+  }
+  .toolbar button{min-width:52px;padding:8px 10px}
+  .toolbar .wide{min-width:110px}
+  #editor{
+    height:420px;
+    overflow:auto;
+    padding:16px;
+    outline:none;
+    line-height:1.6;
+    background:var(--panel-2);
+  }
+  #editor:empty:before{content:"Write here…";color:#7d7468}
+  #editor p{margin:0 0 1em 0}
+  .bottom-row{
+    display:grid;
+    grid-template-columns:1fr 340px;
+    gap:18px;
+    align-items:start;
+  }
+  .save-bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  @media (max-width:900px){
+    .row,.grid,.cover-row,.bottom-row{grid-template-columns:1fr}
+    .cover-preview{width:100%;max-width:220px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Pitch Dark Press Admin</h1>
+  <p class="version">CLEAN VERSION 2 — if you cannot see this line, the old file is still live.</p>
+
+  <div class="panel">
+    <div class="row">
+      <div class="field">
+        <label for="bookSelect">Choose a book</label>
+        <select id="bookSelect"></select>
+      </div>
+      <button type="button" id="loadBookBtn">Load Book</button>
+      <button type="button" id="newBookBtn">New Book</button>
+      <button type="button" id="deleteBookBtn" class="danger">Delete Book</button>
+    </div>
+    <div id="topStatus" class="statusbar"></div>
+  </div>
+
+  <div class="panel">
+    <div class="grid">
+      <div class="field">
+        <label for="title">Title</label>
+        <input id="title" type="text" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="author">Author</label>
+        <input id="author" type="text" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="status">Status</label>
+        <input id="status" type="text" list="statusList" autocomplete="off">
+        <datalist id="statusList"></datalist>
+      </div>
+      <div class="field">
+        <label for="genre">Genre</label>
+        <input id="genre" type="text" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="year">Year</label>
+        <input id="year" type="number">
+      </div>
+      <div class="field">
+        <label for="tags">Tags (comma separated)</label>
+        <input id="tags" type="text" autocomplete="off">
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="cover-row">
+      <div>
+        <div class="field">
+          <label for="coverName">Cover filename</label>
+          <input id="coverName" type="text" placeholder="example.jpg">
+        </div>
+        <div class="field">
+          <label for="coverUpload">Upload new cover image</label>
+          <input id="coverUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+          <button type="button" id="uploadCoverBtn">Upload Cover</button>
+        </div>
+        <p class="small">Cover files are saved into <strong>/covers/</strong>.</p>
+      </div>
+      <div>
+        <div class="cover-preview" id="coverPreview">
+          <span class="small">No cover</span>
+        </div>
+      </div>
+    </div>
+    <div id="coverStatus" class="statusbar"></div>
+  </div>
+
+  <div class="panel">
+    <div class="field" style="margin-bottom:10px;">
+      <label>Main text</label>
+    </div>
+    <div class="editor-shell">
+      <div class="toolbar" id="toolbar">
+        <button type="button" data-cmd="bold"><strong>B</strong></button>
+        <button type="button" data-cmd="italic"><em>I</em></button>
+        <button type="button" data-cmd="underline"><u>U</u></button>
+        <button type="button" data-cmd="justifyLeft">Left</button>
+        <button type="button" data-cmd="justifyCenter">Centre</button>
+        <button type="button" data-cmd="justifyRight">Right</button>
+        <button type="button" id="clearEditorBtn" class="wide">Clear Editor</button>
+      </div>
+      <div id="editor" contenteditable="true" spellcheck="true"></div>
+    </div>
+    <div id="editorStatus" class="statusbar"></div>
+  </div>
+
+  <div class="bottom-row">
+    <div class="panel">
+      <div class="save-bar">
+        <button type="button" id="saveBtn">Save</button>
+      </div>
+      <div id="saveStatus" class="statusbar"></div>
+    </div>
+
+    <div class="panel">
+      <div class="field">
+        <label for="token">GitHub Token</label>
+        <input id="token" type="password" autocomplete="off" placeholder="Paste token here">
+      </div>
+      <button type="button" id="saveTokenBtn">Save Token</button>
+      <div id="tokenStatus" class="statusbar"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let books = [];
+let currentIndex = -1;
+let savedRange = null;
+
+const els = {
+  bookSelect: document.getElementById("bookSelect"),
+  title: document.getElementById("title"),
+  author: document.getElementById("author"),
+  status: document.getElementById("status"),
+  genre: document.getElementById("genre"),
+  year: document.getElementById("year"),
+  tags: document.getElementById("tags"),
+  coverName: document.getElementById("coverName"),
+  coverUpload: document.getElementById("coverUpload"),
+  coverPreview: document.getElementById("coverPreview"),
+  editor: document.getElementById("editor"),
+  token: document.getElementById("token"),
+  statusList: document.getElementById("statusList"),
+  topStatus: document.getElementById("topStatus"),
+  coverStatus: document.getElementById("coverStatus"),
+  editorStatus: document.getElementById("editorStatus"),
+  saveStatus: document.getElementById("saveStatus"),
+  tokenStatus: document.getElementById("tokenStatus")
+};
+
+function setStatus(el, text, kind){
+  el.textContent = text || "";
+  el.className = "statusbar" + (kind ? " " + kind : "");
+}
+
+function getToken(){
+  return localStorage.getItem("pdp_token") || "";
+}
+
+function saveToken(){
+  const token = els.token.value.trim();
+  localStorage.setItem("pdp_token", token);
+  setStatus(els.tokenStatus, token ? "Token saved." : "Token cleared.", token ? "good" : "");
+}
+
+function loadSavedToken(){
+  els.token.value = getToken();
+}
+
+function escapeHtml(text){
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function textToSimpleHtml(text){
+  const clean = String(text || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  if (!clean.trim()) return "";
+  const paragraphs = clean.split(/\n{2,}/).map(part => part.trim()).filter(Boolean);
+  if (!paragraphs.length){
+    return "<p>" + escapeHtml(clean).replace(/\n/g, "<br>") + "</p>";
+  }
+  return paragraphs.map(part => "<p>" + escapeHtml(part).replace(/\n/g, "<br>") + "</p>").join("");
+}
+
+function extractTextParts(node){
+  let out = "";
+  node.childNodes.forEach(child => { out += sanitizeNode(child); });
+  return out;
+}
+
+function sanitizeNode(node){
+  if (node.nodeType === Node.TEXT_NODE){ return escapeHtml(node.textContent); }
+  if (node.nodeType !== Node.ELEMENT_NODE){ return ""; }
+  const tag = node.tagName.toLowerCase();
+  if (tag === "br") return "<br>";
+  if (tag === "b" || tag === "strong") return "<strong>" + extractTextParts(node) + "</strong>";
+  if (tag === "i" || tag === "em") return "<em>" + extractTextParts(node) + "</em>";
+  if (tag === "u") return "<u>" + extractTextParts(node) + "</u>";
+  if (tag === "p"){
+    const align = (node.style.textAlign || "").toLowerCase();
+    const inner = extractTextParts(node);
+    if (!inner.replace(/<br>/g, "").trim()) return "<p><br></p>";
+    if (align === "left" || align === "center" || align === "right"){
+      return '<div style="text-align:' + align + ';">' + inner + "</div>";
+    }
+    return "<p>" + inner + "</p>";
+  }
+  if (tag === "div"){
+    const align = (node.style.textAlign || "").toLowerCase();
+    const inner = extractTextParts(node);
+    if (align === "left" || align === "center" || align === "right"){
+      return '<div style="text-align:' + align + ';">' + inner + "</div>";
+    }
+    return "<p>" + inner + "</p>";
+  }
+  if (tag === "span" || tag === "font"){
+    const align = (node.style.textAlign || "").toLowerCase();
+    const inner = extractTextParts(node);
+    if (align === "left" || align === "center" || align === "right"){
+      return '<div style="text-align:' + align + ';">' + inner + "</div>";
+    }
+    return inner;
+  }
+  if (tag === "li"){ return "<p>" + extractTextParts(node) + "</p>"; }
+  if (tag === "ul" || tag === "ol"){ return Array.from(node.children).map(li => "<p>" + escapeHtml(li.textContent || "") + "</p>").join(""); }
+  return extractTextParts(node);
+}
+
+function normalizeHtml(input){
+  const html = String(input || "").trim();
+  if (!html) return "";
+  if (!/[<>]/.test(html)){ return textToSimpleHtml(html); }
+  const temp = document.createElement("div");
+  temp.innerHTML = html;
+  let output = "";
+  temp.childNodes.forEach(node => { output += sanitizeNode(node); });
+  output = output.replace(/(?:&nbsp;)+/g, " ").replace(/<p>\s*<\/p>/g, "<p><br></p>").replace(/<p>(<br>\s*)+<\/p>/g, "<p><br></p>").trim();
+  return output || textToSimpleHtml(temp.textContent || "");
+}
+
+function fillStatusOptions(){
+  const set = new Set();
+  books.forEach(book => {
+    if (book && typeof book.status === "string" && book.status.trim()) set.add(book.status.trim());
+  });
+  els.statusList.innerHTML = "";
+  Array.from(set).sort().forEach(value => {
+    const option = document.createElement("option");
+    option.value = value;
+    els.statusList.appendChild(option);
+  });
+}
+
+function detectOwnerRepo(){
+  const host = window.location.hostname;
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  let owner = "";
+  let repo = "";
+  if (host.endsWith(".github.io")){
+    owner = host.replace(".github.io", "");
+    repo = pathParts.length > 1 ? pathParts[0] : owner + ".github.io";
+  } else {
+    owner = prompt("GitHub owner name");
+    repo = prompt("GitHub repo name");
+  }
+  return { owner, repo };
+}
+
+async function githubGetFile(path){
+  const token = getToken().trim();
+  const info = detectOwnerRepo();
+  const res = await fetch("https://api.github.com/repos/" + info.owner + "/" + info.repo + "/contents/" + path, {
+    headers: token ? { "Authorization": "token " + token } : {}
+  });
+  if (!res.ok) throw new Error("Could not read " + path);
+  return await res.json();
+}
+
+async function githubPutFile(path, contentBase64, message, sha){
+  const token = getToken().trim();
+  if (!token) throw new Error("GitHub token missing.");
+  const info = detectOwnerRepo();
+  const res = await fetch("https://api.github.com/repos/" + info.owner + "/" + info.repo + "/contents/" + path, {
+    method: "PUT",
+    headers: {
+      "Authorization": "token " + token,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: message, content: contentBase64, sha: sha })
+  });
+  if (!res.ok){
+    const text = await res.text();
+    throw new Error("GitHub save failed. " + text);
+  }
+  return await res.json();
+}
+
+function encodeBase64Unicode(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+async function loadBooks(){
+  setStatus(els.topStatus, "Loading books…");
+  const res = await fetch("books.json?_=" + Date.now());
+  if (!res.ok){
+    setStatus(els.topStatus, "Could not load books.json", "bad");
+    throw new Error("Could not load books.json");
+  }
+  books = await res.json();
+  if (!Array.isArray(books)) books = [];
+  refreshBookList();
+  fillStatusOptions();
+  setStatus(els.topStatus, "Books loaded.", "good");
+}
+
+function refreshBookList(selectIndex){
+  els.bookSelect.innerHTML = "";
+  books.forEach((book, index) => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = book && book.title ? book.title : "Untitled book";
+    els.bookSelect.appendChild(option);
+  });
+  if (typeof selectIndex === "number" && books[selectIndex]) els.bookSelect.value = String(selectIndex);
+  else if (books.length) els.bookSelect.value = "0";
+}
+
+function clearFields(){
+  els.title.value = "";
+  els.author.value = "";
+  els.status.value = "";
+  els.genre.value = "";
+  els.year.value = "";
+  els.tags.value = "";
+  els.coverName.value = "";
+  els.editor.innerHTML = "";
+  renderCoverPreview("");
+}
+
+function getBookContent(book){
+  const raw = book && typeof book.content !== "undefined" ? book.content : "";
+  return normalizeHtml(raw);
+}
+
+function renderCoverPreview(name){
+  const safeName = String(name || "").trim();
+  els.coverPreview.innerHTML = "";
+  if (!safeName){
+    const span = document.createElement("span");
+    span.className = "small";
+    span.textContent = "No cover";
+    els.coverPreview.appendChild(span);
+    return;
+  }
+  const img = document.createElement("img");
+  img.alt = "Cover preview";
+  img.src = safeName.startsWith("/") ? safeName : "covers/" + safeName.replace(/^\/?covers\//, "");
+  img.onerror = function(){ els.coverPreview.innerHTML = '<span class="small">Cover not found</span>'; };
+  els.coverPreview.appendChild(img);
+}
+
+function loadBook(){
+  const index = Number(els.bookSelect.value);
+  if (!books[index]){ setStatus(els.topStatus, "Choose a book first.", "bad"); return; }
+  currentIndex = index;
+  const book = books[index];
+  els.title.value = book.title || "";
+  els.author.value = book.author || "";
+  els.status.value = book.status || "";
+  els.genre.value = book.genre || "";
+  els.year.value = book.year || "";
+  els.tags.value = Array.isArray(book.tags) ? book.tags.join(", ") : (book.tags || "");
+  const coverValue = book.cover || book.coverImage || book.image || "";
+  els.coverName.value = String(coverValue).replace(/^\/?covers\//, "");
+  renderCoverPreview(els.coverName.value);
+  els.editor.innerHTML = getBookContent(book);
+  setStatus(els.topStatus, "Book loaded.", "good");
+  setStatus(els.editorStatus, "", "");
+  setStatus(els.coverStatus, "", "");
+}
+
+function collectFormIntoBook(book){
+  book.title = els.title.value.trim();
+  book.author = els.author.value.trim();
+  book.status = els.status.value.trim();
+  book.genre = els.genre.value.trim();
+  book.year = els.year.value === "" ? "" : Number(els.year.value);
+  book.tags = els.tags.value.split(",").map(tag => tag.trim()).filter(Boolean);
+  book.content = normalizeHtml(els.editor.innerHTML);
+  const coverFile = els.coverName.value.trim();
+  if ("cover" in book || (!('coverImage' in book) && !('image' in book))) book.cover = coverFile;
+  else if ('coverImage' in book) book.coverImage = coverFile;
+  else if ('image' in book) book.image = coverFile;
+  return book;
+}
+
+async function saveBooksJson(message){
+  const existing = await githubGetFile("books.json");
+  await githubPutFile("books.json", encodeBase64Unicode(JSON.stringify(books, null, 2)), message || "Update books.json", existing.sha);
+}
+
+async function saveCurrentBook(){
+  if (currentIndex < 0 || !books[currentIndex]){ setStatus(els.saveStatus, "Load a book or make a new one first.", "bad"); return; }
+  try{
+    setStatus(els.saveStatus, "Saving…");
+    collectFormIntoBook(books[currentIndex]);
+    await saveBooksJson("Update books.json");
+    refreshBookList(currentIndex);
+    fillStatusOptions();
+    setStatus(els.saveStatus, "Saved.", "good");
+  }catch(err){
+    setStatus(els.saveStatus, err.message || "Save failed.", "bad");
+  }
+}
+
+function slugify(text){
+  return String(text || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "new-book";
+}
+
+function newBook(){
+  const draft = { title:"New Book", author:"", status:"", genre:"", year:"", tags:[], cover:"", content:"<p><br></p>" };
+  books.push(draft);
+  currentIndex = books.length - 1;
+  refreshBookList(currentIndex);
+  loadBook();
+  setStatus(els.topStatus, "New book ready.", "good");
+}
+
+async function deleteCurrentBook(){
+  const index = Number(els.bookSelect.value);
+  if (!books[index]){ setStatus(els.topStatus, "Choose a book first.", "bad"); return; }
+  const title = books[index].title || "this book";
+  const ok = window.confirm('Delete "' + title + '"?');
+  if (!ok) return;
+  try{
+    books.splice(index, 1);
+    currentIndex = -1;
+    refreshBookList();
+    clearFields();
+    await saveBooksJson("Delete book from books.json");
+    setStatus(els.topStatus, "Book deleted.", "good");
+  }catch(err){
+    setStatus(els.topStatus, err.message || "Delete failed.", "bad");
+  }
+}
+
+function saveSelection(){
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount > 0) savedRange = sel.getRangeAt(0);
+}
+
+function restoreSelection(){
+  if (!savedRange) return;
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(savedRange);
+}
+
+function runEditorCommand(command){
+  els.editor.focus();
+  restoreSelection();
+  document.execCommand("styleWithCSS", false, false);
+  document.execCommand(command, false, null);
+  saveSelection();
+  els.editor.innerHTML = normalizeHtml(els.editor.innerHTML);
+  setStatus(els.editorStatus, "Formatting applied.", "good");
+}
+
+function clearEditor(){
+  const ok = window.confirm("Clear all text in the editor?");
+  if (!ok) return;
+  els.editor.innerHTML = "";
+  setStatus(els.editorStatus, "Editor cleared.", "good");
+}
+
+async function uploadCover(){
+  const file = els.coverUpload.files[0];
+  if (!file){ setStatus(els.coverStatus, "Choose an image file first.", "bad"); return; }
+  try{
+    setStatus(els.coverStatus, "Uploading cover…");
+    const title = els.title.value.trim() || "cover";
+    const extension = file.name.includes(".") ? file.name.split(".").pop().toLowerCase() : "jpg";
+    const filename = slugify(title) + "." + extension;
+    const path = "covers/" + filename;
+    const buffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    const chunkSize = 0x8000;
+    for (let i = 0; i < bytes.length; i += chunkSize){
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+    }
+    const contentBase64 = btoa(binary);
+    let sha;
+    try{ const existing = await githubGetFile(path); sha = existing.sha; }catch(err){ sha = undefined; }
+    await githubPutFile(path, contentBase64, "Upload cover " + filename, sha);
+    els.coverName.value = filename;
+    renderCoverPreview(filename);
+    setStatus(els.coverStatus, "Cover uploaded.", "good");
+  }catch(err){
+    setStatus(els.coverStatus, err.message || "Cover upload failed.", "bad");
+  }
+}
+
+document.getElementById("saveTokenBtn").addEventListener("click", saveToken);
+document.getElementById("loadBookBtn").addEventListener("click", loadBook);
+document.getElementById("newBookBtn").addEventListener("click", newBook);
+document.getElementById("deleteBookBtn").addEventListener("click", deleteCurrentBook);
+document.getElementById("saveBtn").addEventListener("click", saveCurrentBook);
+document.getElementById("uploadCoverBtn").addEventListener("click", uploadCover);
+document.getElementById("clearEditorBtn").addEventListener("click", clearEditor);
+
+document.querySelectorAll("[data-cmd]").forEach(button => {
+  button.addEventListener("mousedown", function(event){ event.preventDefault(); });
+  button.addEventListener("click", function(){ runEditorCommand(this.getAttribute("data-cmd")); });
+});
+
+["keyup","mouseup","blur"].forEach(eventName => { els.editor.addEventListener(eventName, saveSelection); });
+
+els.editor.addEventListener("paste", function(event){
+  event.preventDefault();
+  const text = (event.clipboardData || window.clipboardData).getData("text/plain");
+  document.execCommand("insertText", false, text);
+  setStatus(els.editorStatus, "Pasted as plain text.", "good");
+});
+
+window.addEventListener("load", async function(){
+  loadSavedToken();
+  try{
+    await loadBooks();
+    if (books.length) loadBook();
+    else setStatus(els.topStatus, "No books found yet.", "");
+  }catch(err){
+    setStatus(els.topStatus, err.message || "Setup failed.", "bad");
+  }
+});
+</script>
+</body>
+</html>
