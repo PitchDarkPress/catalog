@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manifest – Pitch Dark Press</title>
+<style>
+body {
+    font-family: Georgia, serif;
+    background: #0b0b0b;
+    color: #eaeaea;
+    margin: 0;
+    padding: 40px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: #111;
+    padding: 12px;
+    border: 1px solid #222;
+    cursor: pointer;
+}
+
+.status-box {
+    font-size: 12px;
+    color: #9acd32;
+    margin-bottom: 6px;
+}
+
+.cover {
+    background: #222;
+    height: 200px;
+    margin-bottom: 10px;
+}
+
+.genre {
+    font-size: 11px;
+    color: #aaa;
+    margin-bottom: 4px;
+}
+
+.title {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.desc {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.tags {
+    font-size: 11px;
+    color: #7fbf7f;
+}
+
+#readerPanel {
+    display: none;
+    background: #111;
+    border: 1px solid #222;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+#readerStatus {
+    font-size: 12px;
+    color: #9acd32;
+    margin-bottom: 6px;
+}
+
+#readerGenre {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 6px;
+}
+
+#readerTitle {
+    margin: 0 0 8px 0;
+}
+
+#readerAuthor {
+    margin-bottom: 12px;
+}
+
+#readerTags {
+    font-size: 12px;
+    color: #7fbf7f;
+    margin-bottom: 20px;
+}
+
+#readerContent p {
+    margin: 0 0 1.2em 0;
+    line-height: 1.8;
+}
+</style>
+</head>
+<body>
+
+<h1>Manifest</h1>
+
+<div class="grid" id="grid"></div>
+
+<div id="readerPanel">
+    <div id="readerStatus"></div>
+    <div id="readerGenre"></div>
+    <h2 id="readerTitle"></h2>
+    <div id="readerAuthor"></div>
+    <div id="readerTags"></div>
+    <div id="readerContent"></div>
+</div>
+
+<script>
+async function loadBooks() {
+    let books = [];
+    try {
+        const res = await fetch("books.json");
+        books = await res.json();
+        if (!Array.isArray(books)) books = [];
+    } catch {
+        books = [];
+    }
+
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    books.forEach((b, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.onclick = () => openReader(b);
+
+        const status = document.createElement("div");
+        status.className = "status-box";
+        status.textContent = b.status || "";
+
+        const cover = document.createElement("div");
+        cover.className = "cover";
+
+        const genre = document.createElement("div");
+        genre.className = "genre";
+        genre.textContent = b.genre || "";
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = b.title || "";
+
+        const desc = document.createElement("div");
+        desc.className = "desc";
+        const previewText = (b.content || "").replace(/\n+/g, " ").trim();
+        desc.textContent = previewText ? previewText.substring(0, 120) + "..." : "";
+
+        const tags = document.createElement("div");
+        tags.className = "tags";
+        if (Array.isArray(b.tags)) {
+            tags.textContent = b.tags.map(t => "#" + t).join(" ");
+        }
+
+        card.appendChild(status);
+        card.appendChild(cover);
+        card.appendChild(genre);
+        card.appendChild(title);
+        card.appendChild(desc);
+        card.appendChild(tags);
+
+        grid.appendChild(card);
+    });
+}
+
+function openReader(book) {
+    document.getElementById("readerPanel").style.display = "block";
+    document.getElementById("readerStatus").textContent = book.status || "";
+    document.getElementById("readerGenre").textContent = book.genre || "";
+    document.getElementById("readerTitle").textContent = book.title || "";
+    document.getElementById("readerAuthor").textContent = book.author || "";
+    document.getElementById("readerTags").textContent = Array.isArray(book.tags) ? book.tags.map(t => "#" + t).join(" ") : "";
+
+    const contentBox = document.getElementById("readerContent");
+    contentBox.innerHTML = "";
+
+    const text = book.content || "";
+    const paragraphs = text.split(/\n\s*\n/);
+
+    paragraphs.forEach(paragraph => {
+        const cleanText = paragraph.trim();
+        if (cleanText !== "") {
+            const p = document.createElement("p");
+            p.textContent = cleanText;
+            contentBox.appendChild(p);
+        }
+    });
+
+    document.getElementById("readerPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+loadBooks();
+</script>
+
+</body>
+</html>
