@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "title": "Test Book",
+    "author": "Kev",
+    "status": "",
+    "genre": "",
+    "year": "",
+    "tags": [],
+    "content": ""
+  }
+]
