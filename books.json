@@ -2,10 +2,14 @@
   {
     "title": "Test Book",
     "author": "Kev",
-    "status": "",
-    "genre": "",
-    "year": "",
-    "tags": [],
+    "status": "Draft",
+    "genre": "Gothic",
+    "year": "1959",
+    "tags": [
+      "me",
+      "you",
+      "him"
+    ],
     "content": "First paragraph.\n\nSecond paragraph.\n\nThird paragraph."
   }
 ]
