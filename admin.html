@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin — Pitch Dark Press Manifest</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&amp;family=Montserrat:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0a0a0a;
@@ -367,16 +365,589 @@
     </div>
     <button class="btn btn-olive" onclick="saveToken()">Save</button>
   </div>
-  <div class="token-status empty" id="tokenStatus">No token saved.</div>
+  <div class="token-status ok" id="tokenStatus">✓ Token saved.</div>
 </div>
 
-<div class="book-editor" id="bookEditor"></div>
+<div class="book-editor" id="bookEditor">
+    <div class="book-block is-open" id="block-wrap-0">
+      <div class="book-header" onclick="toggleBlock(0)">
+        <span class="book-header-title">The Adventures of A. Rapscallion</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-0">Published</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields open" id="block-0">
+        <div>
+          <label>Title</label>
+          <input type="text" value="The Adventures of A. Rapscallion" oninput="update(0,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="It’s P.G. Wodehouse meets Guy Ritchie in a tale of accidental heroics and the right royal chaos that befalls a man who simply wants to make an adult film." oninput="update(0,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(0,'status',this.value)">
+              <option value="published" selected="">Published</option><option value="coming">Coming</option><option value="free">Free</option><option value="takingshape">Taking Shape</option><option value="emerging">Emerging</option><option value="smoke">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Comedy / Adventure" oninput="update(0,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="comedy, adventure, wodehouse, british" oninput="updateTags(0,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(0)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-0" onclick="uploadCover(0)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-0"></div>
+          <div class="upload-msg" id="upload-msg-0"></div>
+          <input type="file" id="file-input-0" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(0,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="rapscallionpng.png" id="cover-field-0" oninput="update(0,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="https://amazon.co.uk" oninput="update(0,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(0,'description',this.value)">Arthur Rapscallion’s life takes an extraordinary turn
+when simply being in the wrong place at the wrong
+time catapults him from making adult films into a
+world where one wrong move could be his last.
+But why him? What twist of fate makes
+Rapscallion so valuable to some, yet marks
+him for death by an evil prince?
+Armed only with his wits and an ex-criminal for a
+butler, Rapscallion finds himself caught up in the
+machinations of a usurper to the throne of a proud
+Kingdom and so forced to navigate a world of
+royal subterfuge, all the while avoiding getting
+shot, married off, or worse!
+From storming impregnable castles to deadly gun battles and royal banquets, this is a classic adventure with a modern twist.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(0,'freeText',this.value)"></textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-0" onchange="update(0,'collective',this.checked)">
+          <label for="coll-0">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(0)">Remove this title</button>
+      </div>
+    </div>
+  
+    <div class="book-block" id="block-wrap-1">
+      <div class="book-header" onclick="toggleBlock(1)">
+        <span class="book-header-title">Closure Sufficient</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-1">Coming</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields" id="block-1">
+        <div>
+          <label>Title</label>
+          <input type="text" value="Closure Sufficient" oninput="update(1,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="A Kafkaesque descent into bureaucratic horror." oninput="update(1,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(1,'status',this.value)">
+              <option value="published">Published</option><option value="coming" selected="">Coming</option><option value="free">Free</option><option value="takingshape">Taking Shape</option><option value="emerging">Emerging</option><option value="smoke">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Literary Horror" oninput="update(1,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="horror, literary, kafka, dark" oninput="updateTags(1,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(1)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-1" onclick="uploadCover(1)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-1"></div>
+          <div class="upload-msg" id="upload-msg-1"></div>
+          <input type="file" id="file-input-1" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(1,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="" id="cover-field-1" oninput="update(1,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="" oninput="update(1,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(1,'description',this.value)">Full description goes here.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(1,'freeText',this.value)"></textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-1" checked="" onchange="update(1,'collective',this.checked)">
+          <label for="coll-1">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(1)">Remove this title</button>
+      </div>
+    </div>
+  
+    <div class="book-block" id="block-wrap-2">
+      <div class="book-header" onclick="toggleBlock(2)">
+        <span class="book-header-title">The Mystery of Gallows House</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-2">Coming</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields" id="block-2">
+        <div>
+          <label>Title</label>
+          <input type="text" value="The Mystery of Gallows House" oninput="update(2,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="Gothic horror with a comedy thread running through the dark." oninput="update(2,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(2,'status',this.value)">
+              <option value="published">Published</option><option value="coming" selected="">Coming</option><option value="free">Free</option><option value="takingshape">Taking Shape</option><option value="emerging">Emerging</option><option value="smoke">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Comedy / Gothic Horror" oninput="update(2,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="gothic, horror, comedy, mystery" oninput="updateTags(2,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(2)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-2" onclick="uploadCover(2)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-2"></div>
+          <div class="upload-msg" id="upload-msg-2"></div>
+          <input type="file" id="file-input-2" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(2,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="" id="cover-field-2" oninput="update(2,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="" oninput="update(2,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(2,'description',this.value)">Full description goes here.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(2,'freeText',this.value)"></textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-2" onchange="update(2,'collective',this.checked)">
+          <label for="coll-2">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(2)">Remove this title</button>
+      </div>
+    </div>
+  
+    <div class="book-block" id="block-wrap-3">
+      <div class="book-header" onclick="toggleBlock(3)">
+        <span class="book-header-title">KEELER: credendum</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-3">Taking Shape</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields" id="block-3">
+        <div>
+          <label>Title</label>
+          <input type="text" value="KEELER: credendum" oninput="update(3,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="A dual-timeline espionage novel set against the Profumo Affair." oninput="update(3,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(3,'status',this.value)">
+              <option value="published">Published</option><option value="coming">Coming</option><option value="free">Free</option><option value="takingshape" selected="">Taking Shape</option><option value="emerging">Emerging</option><option value="smoke">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Espionage / Historical Fiction" oninput="update(3,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="espionage, historical, profumo, 1960s, thriller" oninput="updateTags(3,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(3)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-3" onclick="uploadCover(3)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-3"></div>
+          <div class="upload-msg" id="upload-msg-3"></div>
+          <input type="file" id="file-input-3" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(3,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="" id="cover-field-3" oninput="update(3,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="" oninput="update(3,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(3,'description',this.value)">Full description goes here.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(3,'freeText',this.value)"></textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-3" checked="" onchange="update(3,'collective',this.checked)">
+          <label for="coll-3">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(3)">Remove this title</button>
+      </div>
+    </div>
+  
+    <div class="book-block" id="block-wrap-4">
+      <div class="book-header" onclick="toggleBlock(4)">
+        <span class="book-header-title">The Winchester Geese</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-4">Emerging</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields" id="block-4">
+        <div>
+          <label>Title</label>
+          <input type="text" value="The Winchester Geese" oninput="update(4,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="Twenty-four days in Tudor London. January to February, 1547." oninput="update(4,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(4,'status',this.value)">
+              <option value="published">Published</option><option value="coming">Coming</option><option value="free">Free</option><option value="takingshape">Taking Shape</option><option value="emerging" selected="">Emerging</option><option value="smoke">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Historical Fiction" oninput="update(4,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="tudor, historical, london, 1547" oninput="updateTags(4,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(4)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-4" onclick="uploadCover(4)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-4"></div>
+          <div class="upload-msg" id="upload-msg-4"></div>
+          <input type="file" id="file-input-4" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(4,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="" id="cover-field-4" oninput="update(4,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="" oninput="update(4,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(4,'description',this.value)">Full description goes here.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(4,'freeText',this.value)"></textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-4" onchange="update(4,'collective',this.checked)">
+          <label for="coll-4">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(4)">Remove this title</button>
+      </div>
+    </div>
+  
+    <div class="book-block" id="block-wrap-5">
+      <div class="book-header" onclick="toggleBlock(5)">
+        <span class="book-header-title">Revenge of An Ordinary Man</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-5">Free</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields" id="block-5">
+        <div>
+          <label>Title</label>
+          <input type="text" value="Revenge of An Ordinary Man" oninput="update(5,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="A short story. Free to read." oninput="update(5,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(5,'status',this.value)">
+              <option value="published">Published</option><option value="coming">Coming</option><option value="free" selected="">Free</option><option value="takingshape">Taking Shape</option><option value="emerging">Emerging</option><option value="smoke">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Short Story" oninput="update(5,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="shortstory, free, dark" oninput="updateTags(5,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(5)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-5" onclick="uploadCover(5)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-5"></div>
+          <div class="upload-msg" id="upload-msg-5"></div>
+          <input type="file" id="file-input-5" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(5,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="" id="cover-field-5" oninput="update(5,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="" oninput="update(5,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(5,'description',this.value)">Full description goes here.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(5,'freeText',this.value)">The story begins here…</textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-5" onchange="update(5,'collective',this.checked)">
+          <label for="coll-5">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(5)">Remove this title</button>
+      </div>
+    </div>
+  
+    <div class="book-block" id="block-wrap-6">
+      <div class="book-header" onclick="toggleBlock(6)">
+        <span class="book-header-title">The Dead Broke Cookbook</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-6">Taking Shape</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields" id="block-6">
+        <div>
+          <label>Title</label>
+          <input type="text" value="The Dead Broke Cookbook" oninput="update(6,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="Budget cooking without the condescension." oninput="update(6,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(6,'status',this.value)">
+              <option value="published">Published</option><option value="coming">Coming</option><option value="free">Free</option><option value="takingshape" selected="">Taking Shape</option><option value="emerging">Emerging</option><option value="smoke">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Non-Fiction" oninput="update(6,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="cooking, budget, nonfiction, practical" oninput="updateTags(6,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(6)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-6" onclick="uploadCover(6)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-6"></div>
+          <div class="upload-msg" id="upload-msg-6"></div>
+          <input type="file" id="file-input-6" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(6,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="" id="cover-field-6" oninput="update(6,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="" oninput="update(6,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(6,'description',this.value)">Full description goes here.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(6,'freeText',this.value)"></textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-6" checked="" onchange="update(6,'collective',this.checked)">
+          <label for="coll-6">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(6)">Remove this title</button>
+      </div>
+    </div>
+  
+    <div class="book-block" id="block-wrap-7">
+      <div class="book-header" onclick="toggleBlock(7)">
+        <span class="book-header-title">The Renting</span>
+        <div class="book-header-right">
+          <span class="book-header-status" id="status-label-7">Smoke</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="book-fields" id="block-7">
+        <div>
+          <label>Title</label>
+          <input type="text" value="The Renting" oninput="update(7,'title',this.value)">
+        </div>
+        <div>
+          <label>One-line blurb</label>
+          <input type="text" value="A dark literary ghost story with an erotic undercurrent." oninput="update(7,'blurb',this.value)">
+        </div>
+        <div class="field-row">
+          <div>
+            <label>Status</label>
+            <select onchange="update(7,'status',this.value)">
+              <option value="published">Published</option><option value="coming">Coming</option><option value="free">Free</option><option value="takingshape">Taking Shape</option><option value="emerging">Emerging</option><option value="smoke" selected="">Smoke</option>
+            </select>
+          </div>
+          <div>
+            <label>Genre</label>
+            <input type="text" value="Literary Horror" oninput="update(7,'genre',this.value)">
+          </div>
+        </div>
+        <div>
+          <label>Hashtags</label>
+          <input type="text" value="ghost, horror, literary, dark, erotic" oninput="updateTags(7,this.value)">
+          <p class="hint">Comma separated, no # needed — e.g. horror, literary, dark</p>
+        </div>
+        <div>
+          <label>Cover Image</label>
+          <div class="cover-row">
+            <button class="btn btn-ghost" onclick="chooseImage(7)">Choose Image…</button>
+            <button class="btn btn-olive btn-upload-cover" id="upload-btn-7" onclick="uploadCover(7)">Upload to GitHub</button>
+          </div>
+          <div class="cover-preview" id="preview-7"></div>
+          <div class="upload-msg" id="upload-msg-7"></div>
+          <input type="file" id="file-input-7" accept="image/png,image/jpeg" style="display:none" onchange="onFileChosen(7,this)">
+          <p class="hint" style="margin-top:0.4rem">Portrait format. PNG or JPG.</p>
+        </div>
+        <div>
+          <label>Cover filename (auto-filled after upload)</label>
+          <input type="text" value="" id="cover-field-7" oninput="update(7,'cover',this.value)">
+        </div>
+        <div>
+          <label>Amazon link (leave blank if none)</label>
+          <input type="url" value="" oninput="update(7,'amazon',this.value)">
+        </div>
+        <div>
+          <label>Full description (book page)</label>
+          <textarea oninput="update(7,'description',this.value)">Full description goes here.</textarea>
+          <p class="hint">Separate paragraphs with a blank line.</p>
+        </div>
+        <div>
+          <label>Free text (Free titles only)</label>
+          <textarea oninput="update(7,'freeText',this.value)"></textarea>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="coll-7" onchange="update(7,'collective',this.checked)">
+          <label for="coll-7">Pitch Dark Collective title</label>
+        </div>
+        <button class="btn btn-danger" onclick="removeBook(7)">Remove this title</button>
+      </div>
+    </div>
+  </div>
 
 <div class="bottom-actions">
   <button class="btn-add" onclick="addBook()">+ Add New Title</button>
   <div class="publish-btn">
-    <button class="btn-publish" onclick="publishToGitHub()">Publish to GitHub</button>
-    <span class="publish-status" id="publishStatus"></span>
+    <button class="btn-publish" onclick="publishToGitHub()" disabled="">Publish to GitHub</button>
+    <span class="publish-status working" id="publishStatus">Saving admin…</span>
   </div>
 </div>
 
@@ -1105,5 +1676,6 @@ loadFromLocal();
 showTokenStatus();
 renderEditor();
 </script>
-</body>
-</html>
+
+
+</body></html>
