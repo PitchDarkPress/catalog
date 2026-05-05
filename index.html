@@ -6,396 +6,70 @@
 <title>The Manifest — Pitch Dark Press</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #0a0a0a;
-    --white: #f0ece4;
-    --olive: #607D1E;
-    --olive-dim: #4a6118;
-    --smoke: #888;
-    --border: #222;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    font-size: 18px;
-    min-height: 100vh;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: var(--black);
-    z-index: 100;
-  }
-
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-  }
-
-  .nav-logo img {
-    height: 40px;
-    width: auto;
-  }
-
-  .nav-logo-text { display: flex; flex-direction: column; }
-
-  .nav-logo-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 400;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--white);
-    line-height: 1;
-  }
-
-  .nav-logo-motto {
-    font-size: 0.55rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--smoke);
-    margin-top: 0.25rem;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.65rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #aaa;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover,
-  .nav-links a.active { color: var(--white); }
-
-  header {
-    padding: 3rem 2rem 1.5rem;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-  }
-
-  header h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    font-weight: 300;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--white);
-  }
-
-  header p {
-    font-size: 0.85rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: #bbb;
-    margin-top: 0.5rem;
-  }
-
-  .controls {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 1.25rem 2rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .search-row {
-    display: flex;
-    align-items: center;
-    border: 1px solid #555;
-    max-width: 420px;
-    transition: border-color 0.2s;
-  }
-
-  .search-row:focus-within { border-color: #888; }
-
-  .search-row input {
-    flex: 1;
-    background: none;
-    border: none;
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 300;
-    padding: 0.6rem 0.9rem;
-    outline: none;
-  }
-
-  .search-row input::placeholder { color: #888; }
-
-  .search-clear {
-    background: none;
-    border: none;
-    color: #444;
-    font-size: 0.9rem;
-    cursor: pointer;
-    padding: 0 0.7rem;
-    line-height: 1;
-    display: none;
-  }
-
-  .search-clear.visible { display: block; }
-  .search-clear:hover { color: var(--white); }
-
-  .filter-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    align-items: center;
-  }
-
-  .filter-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #999;
-    margin-right: 0.25rem;
-  }
-
-  .filter-btn {
-    background: none;
-    border: 1px solid #555;
-    color: #bbb;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .filter-btn:hover,
-  .filter-btn.active {
-    border-color: var(--olive);
-    color: var(--olive);
-  }
-
-  .active-tag-indicator {
-    font-size: 0.55rem;
-    color: var(--olive);
-    letter-spacing: 0.1em;
-    display: none;
-    align-items: center;
-    gap: 0.4rem;
-    margin-left: 0.5rem;
-  }
-
-  .active-tag-indicator.visible { display: flex; }
-
-  .active-tag-indicator button {
-    background: none;
-    border: none;
-    color: #555;
-    cursor: pointer;
-    font-size: 0.8rem;
-    line-height: 1;
-    padding: 0;
-  }
-
-  .active-tag-indicator button:hover { color: var(--white); }
-
-  /* Grid */
-  .book-grid {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 2rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-  }
-
-  .book-card {
-    display: grid;
-    grid-template-columns: 90px 1fr;
-    gap: 1.25rem;
-    padding: 1.5rem 1rem 1.5rem 0;
-    border-bottom: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.2s;
-    align-items: start;
-  }
-
-  .book-card:nth-child(even) {
-    border-right: none;
-    padding-left: 1rem;
-  }
-
-  .book-card:nth-child(odd) {
-    padding-right: 1rem;
-  }
-
-  .book-card:hover { background: #0f0f0f; }
-  .book-card:hover .book-title { color: var(--olive); }
-
-  .cover-wrap {
-    width: 90px;
-    aspect-ratio: 2/3;
-    background: #1a1a1a;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-
-  .cover-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .cover-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    color: var(--border);
-  }
-
-  .book-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding-top: 0.15rem;
-  }
-
-  .book-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    font-weight: 400;
-    line-height: 1.2;
-    transition: color 0.2s;
-  }
-
-  .book-blurb {
-    font-size: 0.82rem;
-    color: #ccc;
-    line-height: 1.6;
-    font-weight: 300;
-  }
-
-  .book-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.2rem;
-    flex-wrap: wrap;
-  }
-
-  .status-badge {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
-    border: 1px solid;
-    white-space: nowrap;
-  }
-
-  .status-published   { color: var(--olive); border-color: var(--olive); }
-  .status-coming      { color: #aaa; border-color: #666; }
-  .status-free        { color: #5bc; border-color: #5bc; }
-  .status-takingshape { color: #d9a040; border-color: #d9a040; }
-  .status-emerging    { color: #7aa8e0; border-color: #7aa8e0; }
-  .status-smoke       { color: #999; border-color: #666; font-style: italic; }
-
-  .collective-tag {
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #7a9e35;
-  }
-
-  .hashtags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    margin-top: 0.2rem;
-  }
-
-  .hashtag {
-    font-size: 0.8rem;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.2s;
-    letter-spacing: 0.03em;
-    user-select: none;
-  }
-
-  .hashtag:hover { color: #ccc; }
-  .hashtag.active-tag { color: var(--olive); }
-
-  .read-more {
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #888;
-    margin-top: 0.5rem;
-  }
-
-  .book-card:hover .read-more { color: var(--white); }
-
-  .no-results {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 4rem 2rem;
-    font-size: 0.75rem;
-    color: #444;
-    letter-spacing: 0.1em;
-  }
-
-  footer {
-    text-align: center;
-    padding: 3rem 2rem;
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #888;
-    border-top: 1px solid var(--border);
-    margin-top: 1rem;
-    line-height: 2;
-  }
-
-  @media (max-width: 620px) {
-    .book-grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
-    .book-card,
-    .book-card:nth-child(even),
-    .book-card:nth-child(odd) { border-right: none; padding: 1.25rem 0; }
-    .book-card:last-child { border-bottom: none; }
-  }
+  :root{--black:#0a0a0a;--white:#f0ece4;--olive:#607D1E;--olive-dim:#4a6118;--smoke:#888;--border:#222}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:var(--white);font-family:'Montserrat',sans-serif;font-weight:300;font-size:18px;min-height:100vh}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--black);z-index:100}
+  .nav-logo{display:flex;align-items:center;gap:0.75rem;text-decoration:none}
+  .nav-logo img{height:56px;width:auto}
+  .nav-logo-text{display:flex;flex-direction:column}
+  .nav-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--white);line-height:1}
+  .nav-logo-motto{font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--smoke);margin-top:0.25rem}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{font-size:0.65rem;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:#aaa;text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--white)}
+  header{padding:3rem 2rem 1.5rem;text-align:center;border-bottom:1px solid var(--border)}
+  header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:300;letter-spacing:0.3em;text-transform:uppercase;color:var(--white)}
+  header p{font-size:0.85rem;letter-spacing:0.25em;text-transform:uppercase;color:#bbb;margin-top:0.5rem}
+  .controls{max-width:1100px;margin:0 auto;padding:1.25rem 2rem;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:0.75rem}
+  .search-row{display:flex;align-items:center;border:1px solid #555;max-width:420px;transition:border-color 0.2s}
+  .search-row:focus-within{border-color:#888}
+  .search-row input{flex:1;background:none;border:none;color:var(--white);font-family:'Montserrat',sans-serif;font-size:0.95rem;font-weight:300;padding:0.6rem 0.9rem;outline:none}
+  .search-row input::placeholder{color:#888}
+  .search-clear{background:none;border:none;color:#444;font-size:0.9rem;cursor:pointer;padding:0 0.7rem;line-height:1;display:none}
+  .search-clear.visible{display:block}
+  .search-clear:hover{color:var(--white)}
+  .filter-row{display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center}
+  .filter-label{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:#999;margin-right:0.25rem}
+  .filter-btn{background:none;border:1px solid #555;color:#bbb;font-family:'Montserrat',sans-serif;font-size:0.75rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;cursor:pointer;transition:all 0.2s}
+  .filter-btn:hover,.filter-btn.active{border-color:var(--olive);color:var(--olive)}
+  .active-tag-indicator{font-size:0.75rem;color:var(--olive);letter-spacing:0.1em;display:none;align-items:center;gap:0.4rem;margin-left:0.5rem}
+  .active-tag-indicator.visible{display:flex}
+  .active-tag-indicator button{background:none;border:none;color:#555;cursor:pointer;font-size:0.9rem;line-height:1;padding:0}
+  .active-tag-indicator button:hover{color:var(--white)}
+  .book-grid{max-width:1100px;margin:0 auto;padding:0 2rem 2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+  .book-card{display:grid;grid-template-columns:90px 1fr;gap:1.25rem;padding:1.5rem 1rem 1.5rem 0;border-bottom:1px solid var(--border);border-right:1px solid var(--border);cursor:pointer;text-decoration:none;color:inherit;transition:background 0.2s;align-items:start}
+  .book-card:nth-child(even){border-right:none;padding-left:1rem}
+  .book-card:nth-child(odd){padding-right:1rem}
+  .book-card:hover{background:#0f0f0f}
+  .book-card:hover .book-title{color:var(--olive)}
+  .cover-wrap{width:90px;aspect-ratio:2/3;background:#1a1a1a;overflow:hidden;flex-shrink:0}
+  .cover-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+  .cover-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--border)}
+  .book-info{display:flex;flex-direction:column;gap:0.35rem;padding-top:0.15rem}
+  .book-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;line-height:1.2;transition:color 0.2s}
+  .book-blurb{font-size:0.82rem;color:#ccc;line-height:1.6;font-weight:300}
+  .book-meta{display:flex;align-items:center;gap:0.5rem;margin-top:0.2rem;flex-wrap:wrap}
+  .status-badge{font-size:0.75rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.7rem;border:1px solid;white-space:nowrap}
+  .status-published{color:#607D1E;border-color:#607D1E}
+  .status-coming{color:#aaa;border-color:#666}
+  .status-free{color:#5bc;border-color:#5bc}
+  .status-takingshape{color:#d9a040;border-color:#d9a040}
+  .status-emerging{color:#7aa8e0;border-color:#7aa8e0}
+  .status-smoke{color:#999;border-color:#666;font-style:italic}
+  .collective-tag{font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:#7a9e35}
+  .hashtags{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.2rem}
+  .hashtag{font-size:0.8rem;color:#888;cursor:pointer;transition:color 0.2s;letter-spacing:0.03em;user-select:none}
+  .hashtag:hover{color:#ccc}
+  .hashtag.active-tag{color:var(--olive)}
+  .read-more{font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:#888;margin-top:0.5rem}
+  .book-card:hover .read-more{color:var(--white)}
+  .no-results{grid-column:1/-1;text-align:center;padding:4rem 2rem;font-size:0.75rem;color:#444;letter-spacing:0.1em}
+  footer{text-align:center;padding:3rem 2rem;font-size:0.8rem;letter-spacing:0.15em;text-transform:uppercase;color:#888;border-top:1px solid var(--border);margin-top:1rem;line-height:2}
+  @media(max-width:620px){.book-grid{grid-template-columns:1fr;padding:0 1rem 2rem}.book-card,.book-card:nth-child(even),.book-card:nth-child(odd){border-right:none;padding:1.25rem 0}.book-card:last-child{border-bottom:none}}
 </style>
 </head>
 <body>
-
 <nav>
   <a class="nav-logo" href="https://pitchdarkpress.github.io/pdp-site/">
     <img src="https://pitchdarkpress.github.io/pdp-site/pdplogopng.png" alt="Pitch Dark Press">
@@ -412,12 +86,10 @@
     <li><a href="https://pitchdarkpress.github.io/pdp-site/connect.html">Connect</a></li>
   </ul>
 </nav>
-
 <header>
   <h1>The Manifest</h1>
   <p>Pitch Dark Press — Publish and Be Damned</p>
 </header>
-
 <div class="controls">
   <div class="search-row">
     <input type="text" id="searchInput" placeholder="Search titles, tags…" oninput="onSearch(this.value)">
@@ -438,219 +110,193 @@
     </span>
   </div>
 </div>
-
 <main class="book-grid" id="bookGrid"></main>
-
 <footer>Programming by Iteration — Manifest 2A<br>This website was built as a <a href="http://proauthorist.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">Proauthorist</a> project. Declared, as always.</footer>
-
 <script>
-const books = [
+const books=[
   {
-    id: "rapscallion",
-    title: "The Adventures of A. Rapscallion",
-    blurb: "A comedy adventure in the tradition of Wodehouse and Ritchie.",
-    status: "published",
-    cover: "",
-    collective: false,
-    amazon: "https://amazon.co.uk",
-    genre: "Comedy / Adventure",
-    description: "Full description goes here.",
-    freeText: "",
-    tags: ["comedy", "adventure", "wodehouse", "british"],
+    "id": "rapscallion",
+    "title": "The Adventures of A. Rapscallion",
+    "blurb": "It’s P.G. Wodehouse meets Guy Ritchie in a tale of accidental heroics and the right royal chaos that befalls a man who simply wants to make an adult film.",
+    "status": "published",
+    "cover": "rapscallionpng.png",
+    "collective": false,
+    "amazon": "https://amazon.co.uk",
+    "genre": "Comedy / Adventure",
+    "description": "Arthur Rapscallion’s life takes an extraordinary turn\nwhen simply being in the wrong place at the wrong\ntime catapults him from making adult films into a\nworld where one wrong move could be his last.\nBut why him? What twist of fate makes\nRapscallion so valuable to some, yet marks\nhim for death by an evil prince?\nArmed only with his wits and an ex-criminal for a\nbutler, Rapscallion finds himself caught up in the\nmachinations of a usurper to the throne of a proud\nKingdom and so forced to navigate a world of\nroyal subterfuge, all the while avoiding getting\nshot, married off, or worse!\nFrom storming impregnable castles to deadly gun battles and royal banquets, this is a classic adventure with a modern twist.",
+    "freeText": "",
+    "tags": [
+      "comedy",
+      "adventure",
+      "wodehouse",
+      "british"
+    ]
   },
   {
-    id: "closure-sufficient",
-    title: "Closure Sufficient",
-    blurb: "A Kafkaesque descent into bureaucratic horror.",
-    status: "coming",
-    cover: "",
-    collective: true,
-    amazon: "",
-    genre: "Literary Horror",
-    description: "Full description goes here.",
-    freeText: "",
-    tags: ["horror", "literary", "kafka", "dark"],
+    "id": "closure-sufficient",
+    "title": "Closure Sufficient",
+    "blurb": "A Kafkaesque descent into bureaucratic horror.",
+    "status": "coming",
+    "cover": "",
+    "collective": true,
+    "amazon": "",
+    "genre": "Literary Horror",
+    "description": "Full description goes here.",
+    "freeText": "",
+    "tags": [
+      "horror",
+      "literary",
+      "kafka",
+      "dark"
+    ]
   },
   {
-    id: "gallows-house",
-    title: "The Mystery of Gallows House",
-    blurb: "Gothic horror with a comedy thread running through the dark.",
-    status: "coming",
-    cover: "",
-    collective: false,
-    amazon: "",
-    genre: "Comedy / Gothic Horror",
-    description: "Full description goes here.",
-    freeText: "",
-    tags: ["gothic", "horror", "comedy", "mystery"],
+    "id": "gallows-house",
+    "title": "The Mystery of Gallows House",
+    "blurb": "Gothic horror with a comedy thread running through the dark.",
+    "status": "coming",
+    "cover": "",
+    "collective": false,
+    "amazon": "",
+    "genre": "Comedy / Gothic Horror",
+    "description": "Full description goes here.",
+    "freeText": "",
+    "tags": [
+      "gothic",
+      "horror",
+      "comedy",
+      "mystery"
+    ]
   },
   {
-    id: "keeler",
-    title: "KEELER: credendum",
-    blurb: "A dual-timeline espionage novel set against the Profumo Affair.",
-    status: "takingshape",
-    cover: "",
-    collective: true,
-    amazon: "",
-    genre: "Espionage / Historical Fiction",
-    description: "Full description goes here.",
-    freeText: "",
-    tags: ["espionage", "historical", "profumo", "1960s", "thriller"],
+    "id": "keeler",
+    "title": "KEELER: credendum",
+    "blurb": "A dual-timeline espionage novel set against the Profumo Affair.",
+    "status": "takingshape",
+    "cover": "",
+    "collective": true,
+    "amazon": "",
+    "genre": "Espionage / Historical Fiction",
+    "description": "Full description goes here.",
+    "freeText": "",
+    "tags": [
+      "espionage",
+      "historical",
+      "profumo",
+      "1960s",
+      "thriller"
+    ]
   },
   {
-    id: "winchester-geese",
-    title: "The Winchester Geese",
-    blurb: "Twenty-four days in Tudor London. January to February, 1547.",
-    status: "emerging",
-    cover: "",
-    collective: false,
-    amazon: "",
-    genre: "Historical Fiction",
-    description: "Full description goes here.",
-    freeText: "",
-    tags: ["tudor", "historical", "london", "1547"],
+    "id": "winchester-geese",
+    "title": "The Winchester Geese",
+    "blurb": "Twenty-four days in Tudor London. January to February, 1547.",
+    "status": "emerging",
+    "cover": "",
+    "collective": false,
+    "amazon": "",
+    "genre": "Historical Fiction",
+    "description": "Full description goes here.",
+    "freeText": "",
+    "tags": [
+      "tudor",
+      "historical",
+      "london",
+      "1547"
+    ]
   },
   {
-    id: "revenge",
-    title: "Revenge of An Ordinary Man",
-    blurb: "A short story. Free to read.",
-    status: "free",
-    cover: "",
-    collective: false,
-    amazon: "",
-    genre: "Short Story",
-    description: "Full description goes here.",
-    freeText: "The story begins here…",
-    tags: ["shortstory", "free", "dark"],
+    "id": "revenge",
+    "title": "Revenge of An Ordinary Man",
+    "blurb": "A short story. Free to read.",
+    "status": "free",
+    "cover": "",
+    "collective": false,
+    "amazon": "",
+    "genre": "Short Story",
+    "description": "Full description goes here.",
+    "freeText": "The story begins here…",
+    "tags": [
+      "shortstory",
+      "free",
+      "dark"
+    ]
   },
   {
-    id: "dead-broke",
-    title: "The Dead Broke Cookbook",
-    blurb: "Budget cooking without the condescension.",
-    status: "takingshape",
-    cover: "",
-    collective: true,
-    amazon: "",
-    genre: "Non-Fiction",
-    description: "Full description goes here.",
-    freeText: "",
-    tags: ["cooking", "budget", "nonfiction", "practical"],
+    "id": "dead-broke",
+    "title": "The Dead Broke Cookbook",
+    "blurb": "Budget cooking without the condescension.",
+    "status": "takingshape",
+    "cover": "",
+    "collective": true,
+    "amazon": "",
+    "genre": "Non-Fiction",
+    "description": "Full description goes here.",
+    "freeText": "",
+    "tags": [
+      "cooking",
+      "budget",
+      "nonfiction",
+      "practical"
+    ]
   },
   {
-    id: "the-renting",
-    title: "The Renting",
-    blurb: "A dark literary ghost story with an erotic undercurrent.",
-    status: "smoke",
-    cover: "",
-    collective: false,
-    amazon: "",
-    genre: "Literary Horror",
-    description: "Full description goes here.",
-    freeText: "",
-    tags: ["ghost", "horror", "literary", "dark", "erotic"],
-  },
+    "id": "the-renting",
+    "title": "The Renting",
+    "blurb": "A dark literary ghost story with an erotic undercurrent.",
+    "status": "smoke",
+    "cover": "",
+    "collective": false,
+    "amazon": "",
+    "genre": "Literary Horror",
+    "description": "Full description goes here.",
+    "freeText": "",
+    "tags": [
+      "ghost",
+      "horror",
+      "literary",
+      "dark",
+      "erotic"
+    ]
+  }
 ];
-
-const statusLabel = {
-  published:   "Published",
-  coming:      "Coming",
-  free:        "Free",
-  takingshape: "Taking Shape",
-  emerging:    "Emerging",
-  smoke:       "Smoke",
-};
-
-let activeFilter = 'all';
-let activeTag = '';
-let searchQuery = '';
-
-function renderBooks() {
-  const grid = document.getElementById('bookGrid');
-  const q = searchQuery.toLowerCase().trim();
-
-  const filtered = books.filter(book => {
-    if (activeFilter !== 'all' && book.status !== activeFilter) return false;
-    if (activeTag && !(book.tags || []).map(t => t.toLowerCase()).includes(activeTag)) return false;
-    if (q) {
-      const haystack = [book.title, book.blurb, ...(book.tags || [])].join(' ').toLowerCase();
-      if (!haystack.includes(q)) return false;
-    }
+const statusLabel={published:"Published",coming:"Coming",free:"Free",takingshape:"Taking Shape",emerging:"Emerging",smoke:"Smoke"};
+let activeFilter='all',activeTag='',searchQuery='';
+function renderBooks(){
+  const grid=document.getElementById('bookGrid');
+  const q=searchQuery.toLowerCase().trim();
+  const filtered=books.filter(book=>{
+    if(activeFilter!=='all'&&book.status!==activeFilter)return false;
+    if(activeTag&&!(book.tags||[]).map(t=>t.toLowerCase()).includes(activeTag))return false;
+    if(q){const h=[book.title,book.blurb,...(book.tags||[])].join(' ').toLowerCase();if(!h.includes(q))return false;}
     return true;
   });
-
-  // Tag indicator
-  const indicator = document.getElementById('tagIndicator');
-  const tagLabel = document.getElementById('tagLabel');
-  if (activeTag) {
-    tagLabel.textContent = '#' + activeTag;
-    indicator.classList.add('visible');
-  } else {
-    indicator.classList.remove('visible');
-  }
-
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="no-results">Nothing found.</div>';
-    return;
-  }
-
-  grid.innerHTML = filtered.map(book => `
+  const indicator=document.getElementById('tagIndicator');
+  const tagLabel=document.getElementById('tagLabel');
+  if(activeTag){tagLabel.textContent='#'+activeTag;indicator.classList.add('visible');}
+  else{indicator.classList.remove('visible');}
+  if(filtered.length===0){grid.innerHTML='<div class="no-results">Nothing found.</div>';return;}
+  grid.innerHTML=filtered.map(book=>`
     <a class="book-card" href="book.html?id=${book.id}">
-      <div class="cover-wrap">
-        ${book.cover
-          ? `<img src="covers/${book.cover}" alt="${book.title}">`
-          : `<div class="cover-placeholder">✦</div>`}
-      </div>
+      <div class="cover-wrap">${book.cover?`<img src="covers/${book.cover}" alt="${book.title}">`:'<div class="cover-placeholder">✦</div>'}</div>
       <div class="book-info">
         <div class="book-title">${book.title}</div>
         <div class="book-blurb">${book.blurb}</div>
         <div class="book-meta">
           <span class="status-badge status-${book.status}">${statusLabel[book.status]}</span>
-          ${book.collective ? '<span class="collective-tag">Pitch Dark Collective</span>' : ''}
+          ${book.collective?'<span class="collective-tag">Pitch Dark Collective</span>':''}
         </div>
-        ${book.tags && book.tags.length ? `
-          <div class="hashtags">
-            ${book.tags.map(t => `<span class="hashtag${activeTag === t ? ' active-tag' : ''}" onclick="filterTag(event,'${t}')">#${t}</span>`).join('')}
-          </div>` : ''}
+        ${book.tags&&book.tags.length?`<div class="hashtags">${book.tags.map(t=>`<span class="hashtag${activeTag===t?' active-tag':''}" onclick="filterTag(event,'${t}')">#${t}</span>`).join('')}</div>`:''}
         <div class="read-more">Read more →</div>
       </div>
     </a>
   `).join('');
 }
-
-function filterTag(e, tag) {
-  e.preventDefault();
-  e.stopPropagation();
-  activeTag = activeTag === tag ? '' : tag;
-  renderBooks();
-}
-
-function clearTag() {
-  activeTag = '';
-  renderBooks();
-}
-
-function onSearch(val) {
-  searchQuery = val;
-  document.getElementById('searchClear').classList.toggle('visible', val.length > 0);
-  renderBooks();
-}
-
-function clearSearch() {
-  document.getElementById('searchInput').value = '';
-  searchQuery = '';
-  document.getElementById('searchClear').classList.remove('visible');
-  renderBooks();
-}
-
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeFilter = btn.dataset.filter;
-    renderBooks();
-  });
-});
-
+function filterTag(e,tag){e.preventDefault();e.stopPropagation();activeTag=activeTag===tag?'':tag;renderBooks();}
+function clearTag(){activeTag='';renderBooks();}
+function onSearch(val){searchQuery=val;document.getElementById('searchClear').classList.toggle('visible',val.length>0);renderBooks();}
+function clearSearch(){document.getElementById('searchInput').value='';searchQuery='';document.getElementById('searchClear').classList.remove('visible');renderBooks();}
+document.querySelectorAll('.filter-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeFilter=btn.dataset.filter;renderBooks();});});
 renderBooks();
 </script>
 </body>
